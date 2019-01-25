@@ -7,8 +7,29 @@
 		<generator>Hugo -- gohugo.io</generator>
 		<language>en-us</language>
 		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Tue, 08 Jan 2019 10:36:03 +0800</lastBuildDate>
+		<lastBuildDate>Fri, 25 Jan 2019 09:12:04 +0800</lastBuildDate>
 		<atom:link href="https://tanzyy96.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>Starting on the Python Challenges</title>
+			<link>https://tanzyy96.github.io/posts/first-post/</link>
+			<pubDate>Fri, 25 Jan 2019 09:12:04 +0800</pubDate>
+			
+			<guid>https://tanzyy96.github.io/posts/first-post/</guid>
+			<description>Today shall be the official start to completing the Python Challenges by Pybites.
+Though technically I started it last week.
+Pybites has a long list of about 60 Python Challenges on their website, ranging from simple games to API calls for web servers. I think this is going to be a good opportunity to bring my Python skills to the next level, and hopefully inspire me to be able to start on my own personal project!</description>
+			<content type="html"><![CDATA[<p>Today shall be the official start to completing the Python Challenges by Pybites.</p>
+
+<p>Though technically I started it last week.</p>
+
+<p>Pybites has a long list of about 60 Python Challenges on their website, ranging from simple games to API calls for web servers. I think this is going to be a good opportunity to bring my Python skills to the next level, and hopefully inspire me to be able to start on my own personal project!</p>
+
+<p>So far, I have completed 2 challenges but really have struggled with completing it within a single day each. Usually I take way too long and in the case of the 2nd challenge, I had to look at the solution because I couldn&rsquo;t figure out the algorithm as well. But good start, this means that the challenges must be technically pretty tough. Hopefully this will really help me improve.</p>
+
+<p>Cheers</p>
+]]></content>
+		</item>
 		
 		<item>
 			<title>Hello World</title>

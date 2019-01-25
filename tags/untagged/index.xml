@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>My Git Blog</title>
-    <link>https://tanzyy96.github.io/</link>
-    <description>Recent content on My Git Blog</description>
+    <title>Untagged on My Git Blog</title>
+    <link>https://tanzyy96.github.io/tags/untagged/</link>
+    <description>Recent content in Untagged on My Git Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
     <lastBuildDate>Fri, 25 Jan 2019 09:12:04 +0800</lastBuildDate>
     
-	<atom:link href="https://tanzyy96.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tanzyy96.github.io/tags/untagged/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -21,25 +21,6 @@
       <description>Today shall be the official start to completing the Python Challenges by Pybites.
 Though technically I started it last week.
 Pybites has a long list of about 60 Python Challenges on their website, ranging from simple games to API calls for web servers. I think this is going to be a good opportunity to bring my Python skills to the next level, and hopefully inspire me to be able to start on my own personal project!</description>
-    </item>
-    
-    <item>
-      <title>About Me</title>
-      <link>https://tanzyy96.github.io/about-me/</link>
-      <pubDate>Tue, 08 Jan 2019 11:33:06 +0800</pubDate>
-      
-      <guid>https://tanzyy96.github.io/about-me/</guid>
-      <description>Hi there! I am a second year NTU undergraduate, pursuing a Bachelor&amp;rsquo;s Degree in Computer Science.
-My favourite hobbies are probably playing sports with friends, good movies, good PS4 games and of course, unforgettable travel experiences :)</description>
-    </item>
-    
-    <item>
-      <title>Hello World</title>
-      <link>https://tanzyy96.github.io/posts/hello-world/</link>
-      <pubDate>Tue, 08 Jan 2019 10:36:03 +0800</pubDate>
-      
-      <guid>https://tanzyy96.github.io/posts/hello-world/</guid>
-      <description>Hello World.</description>
     </item>
     
   </channel>
