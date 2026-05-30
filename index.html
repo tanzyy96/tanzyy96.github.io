@@ -1,60 +1,314 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en" data-theme="light">
 
 <head>
-	<meta name="generator" content="Hugo 0.53" />
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<meta name="theme-color" content="#494f5c">
-	<meta name="msapplication-TileColor" content="#494f5c">
-<meta itemprop="name" content="My Git Blog">
-<meta itemprop="description" content="">
+	<meta name="theme-color" content="#fbf9f4">
 
-<meta property="og:title" content="My Git Blog" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://tanzyy96.github.io/" />
-<meta property="og:updated_time" content="2019-01-25T09:12:04&#43;08:00"/>
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="My Git Blog"/>
-<meta name="twitter:description" content=""/>
+	<title>Tan Zhi Yang — Product Engineer</title>
+	<meta name="description"
+		content="Tan Zhi Yang (Tanzy) — a product engineer who cares about the whole arc, from the messy problem to the last pixel.">
+
+	<!-- Open Graph -->
+	<meta property="og:title" content="Tan Zhi Yang — Product Engineer" />
+	<meta property="og:description"
+		content="A product engineer who cares about the whole arc, from the messy problem to the last pixel." />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://tanzyy96.github.io/" />
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:title" content="Tan Zhi Yang — Product Engineer" />
+	<meta name="twitter:description"
+		content="A product engineer who cares about the whole arc, from the messy problem to the last pixel." />
+
+	<!-- Favicons (kept from previous site) -->
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 	<link rel="manifest" href="/site.webmanifest">
-	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
 	<link rel="shortcut icon" href="/favicon.ico">
 
-	<title>My Git Blog</title>
-	<link rel="alternate" type="application/rss+xml+xml" href="https://tanzyy96.github.io/index.xml" title="My Git Blog" />
-	<link rel="stylesheet" href="https://tanzyy96.github.io/css/style.min.9a30741782203507f3d35fe9cefabad487c72fc82dfbdf59121759fc2fa52f92.css" integrity="sha256-mjB0F4IgNQfz01/pzvq61IfHL8gt+99ZEhdZ/C+lL5I=">
-	
+	<!-- Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
+		rel="stylesheet">
+
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body id="page">
-	
-	<div id="spotlight" class="animated fadeIn">
-		<div id="home-center">
-			<h1 id="home-title">My Git Blog</h1>
-			<p id="home-subtitle">A simple and minimal git blog.</p>
-			<div id="home-social">
-				<a href="mailto:tan.zy096@gmail.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a><a href="https://www.linkedin.com/in/zhi-yang-tan-265815166/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a><a href="https://instagram.com/tanzy.__" target="_blank" rel="noopener" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></a><a href="https://github.com/tanzyy96" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+<body>
+	<!-- soft cursor spotlight -->
+	<div id="spotlight" aria-hidden="true"></div>
+
+	<!-- ───────────────────────── NAV ───────────────────────── -->
+	<header class="nav" id="nav">
+		<a href="#top" class="nav-brand">
+			<span class="nav-logo" aria-hidden="true">{ }</span>
+			<span>tanzy</span>
+		</a>
+		<nav class="nav-links">
+			<a href="#about">About</a>
+			<a href="#thinking">How I think</a>
+			<a href="#work">Work</a>
+			<a href="#now">Now</a>
+			<a href="#contact" class="nav-cta">Say hi</a>
+		</nav>
+		<button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+			<span class="theme-icon-sun">☀</span>
+			<span class="theme-icon-moon">☾</span>
+		</button>
+	</header>
+
+	<main id="top">
+
+		<!-- ───────────────────────── HERO ───────────────────────── -->
+		<section class="hero">
+			<div class="hero-bg" aria-hidden="true">
+				<span class="blob blob-1"></span>
+				<span class="blob blob-2"></span>
+				<span class="blob blob-3"></span>
 			</div>
-			<nav id="home-nav" class="site-nav">
-				<a href="https://tanzyy96.github.io/posts/">Posts</a>
-				<a href="https://tanzyy96.github.io/about-me/">About</a>
-			</nav>
-		</div>
-		<div id="home-footer">
-			<p>
-				&copy; 2019 <a href="https://tanzyy96.github.io">&#39;Tanzy&#39; Tan Zhi Yang</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a> &#183; <a href="https://tanzyy96.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
-			</p>
-		</div>
-	</div>
 
-	<script src="https://tanzyy96.github.io/js/main.min.8f39f24808e9d0a9b02da58c2d2838da859dc0b7bdfadbdb1883aae8b6adacfe.js" integrity="sha256-jznySAjp0KmwLaWMLSg42oWdwLe9+tvbGIOq6LatrP4="></script>
+			<div class="hero-inner">
+				<p class="eyebrow reveal">
+					<span class="status-dot"></span> Singapore · open to good problems
+				</p>
 
+				<h1 class="hero-title reveal">
+					Hi, I'm <span class="name-highlight">Tan Zhi&nbsp;Yang</span>.<br>
+					I build <span class="rotator" id="rotator" aria-live="polite">products</span><span
+						class="cursor-blink">_</span>
+				</h1>
+
+				<p class="hero-sub reveal">
+					A <strong>product engineer</strong> who cares about the whole arc — from the
+					messy, half-formed problem all the way to the last pixel and the copy on the
+					button. Code is the easy part; building the <em>right</em> thing is the fun part.
+				</p>
+
+				<div class="hero-actions reveal">
+					<a href="#work" class="btn btn-primary">See what I build</a>
+					<a href="#thinking" class="btn btn-ghost">How I think →</a>
+				</div>
+
+				<!-- draggable sticky note easter-egg -->
+				<div class="sticky-note" id="sticky" title="drag me :)">
+					<span>psst — try the<br>Konami code 👀</span>
+				</div>
+			</div>
+
+			<a href="#about" class="scroll-hint" aria-label="Scroll down">
+				<span>scroll</span>
+				<span class="scroll-arrow">↓</span>
+			</a>
+		</section>
+
+		<!-- ───────────────────────── ABOUT ───────────────────────── -->
+		<section class="section" id="about">
+			<div class="section-head reveal">
+				<span class="section-kicker">// about</span>
+				<h2>The short version</h2>
+			</div>
+
+			<div class="about-grid">
+				<div class="about-photo reveal">
+					<img src="/about-hugo/myphoto.jpg" alt="Tan Zhi Yang" width="264" height="264"
+						loading="lazy">
+					<span class="photo-badge">that's me 👋</span>
+				</div>
+
+				<div class="about-text reveal">
+					<p>
+						I'm Tanzy — a Computer Science grad turned product engineer. I like
+						sitting in the messy middle: close enough to users to feel their pain,
+						close enough to the code to actually fix it.
+					</p>
+					<p>
+						My favourite kind of work is the <strong>0→1</strong> kind: take a vague
+						idea, talk to people, sketch, prototype, ship something small, and let
+						reality tell us what to do next. Repeat until it's genuinely good.
+					</p>
+					<p>
+						Outside the editor you'll find me playing sports with friends, deep in a
+						good game, chasing a good film, or somewhere mid-flight planning the next
+						trip.
+					</p>
+
+					<ul class="fact-list">
+						<li><span>🧠</span> Obsessed with <b>product taste</b> &amp; the details users feel</li>
+						<li><span>🛠️</span> Full-stack, but happiest near the user</li>
+						<li><span>🎮</span> Games &amp; films are my product-design school</li>
+						<li><span>✈️</span> Will reorganise my life around a good trip</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────────────────────── HOW I THINK ───────────────────────── -->
+		<section class="section section-tint" id="thinking">
+			<div class="section-head reveal">
+				<span class="section-kicker">// how i think</span>
+				<h2>Product engineering, the way I see it</h2>
+				<p class="section-lede">
+					Engineering decisions are product decisions in disguise. These are the
+					principles I keep coming back to.
+				</p>
+			</div>
+
+			<div class="card-grid">
+				<!-- EDIT: these are my genuine principles — tweak the wording to sound like you -->
+				<article class="card reveal" tabindex="0">
+					<span class="card-num">01</span>
+					<h3>Ship to learn</h3>
+					<p>The fastest way to be right is to put something real in front of people
+						and watch what actually happens. Opinions are cheap; behaviour isn't.</p>
+				</article>
+
+				<article class="card reveal" tabindex="0">
+					<span class="card-num">02</span>
+					<h3>The details <em>are</em> the product</h3>
+					<p>Empty states, loading spinners, the copy on a button, the 200ms of
+						animation. Users never see the architecture — they feel the sum of the
+						small decisions.</p>
+				</article>
+
+				<article class="card reveal" tabindex="0">
+					<span class="card-num">03</span>
+					<h3>Own the problem, not the ticket</h3>
+					<p>The best engineers understand the <em>why</em>. Give me the goal, not just
+						the spec, and I'll often find a simpler thing worth building instead.</p>
+				</article>
+
+				<article class="card reveal" tabindex="0">
+					<span class="card-num">04</span>
+					<h3>Boring tech, interesting problems</h3>
+					<p>Spend the novelty budget where it counts — on the user's problem, not on
+						a stack that's exciting for 20 minutes and painful for two years.</p>
+				</article>
+
+				<article class="card reveal" tabindex="0">
+					<span class="card-num">05</span>
+					<h3>Taste is a skill</h3>
+					<p>It's not magic — you build it by shipping, collecting feedback, and
+						paying attention to work you admire. Then you trust it, then you check it.</p>
+				</article>
+
+				<article class="card reveal" tabindex="0">
+					<span class="card-num">06</span>
+					<h3>Talk to the humans</h3>
+					<p>Five minutes watching someone use the thing beats five hours arguing
+						about it in a doc. The roadmap is downstream of real conversations.</p>
+				</article>
+			</div>
+		</section>
+
+		<!-- ───────────────────────── WORK ───────────────────────── -->
+		<section class="section" id="work">
+			<div class="section-head reveal">
+				<span class="section-kicker">// work</span>
+				<h2>Things I've built &amp; tinkered with</h2>
+				<p class="section-lede">
+					A mix of work and side projects. <em>(Swap these for your real ones — they're
+					placeholders.)</em>
+				</p>
+			</div>
+
+			<div class="work-grid">
+				<!-- EDIT: replace each card with a real project (title, blurb, tags, link) -->
+				<a class="work-card reveal" href="https://github.com/tanzyy96" target="_blank" rel="noopener">
+					<div class="work-card-top">
+						<span class="work-emoji">🦔</span>
+						<span class="work-arrow">↗</span>
+					</div>
+					<h3>This website</h3>
+					<p>A hand-built, no-framework personal site. Fast, playful, and a sandbox for
+						front-end ideas. You're looking at it.</p>
+					<div class="tags"><span>HTML</span><span>CSS</span><span>Vanilla JS</span></div>
+				</a>
+
+				<a class="work-card reveal" href="https://github.com/tanzyy96" target="_blank" rel="noopener">
+					<div class="work-card-top">
+						<span class="work-emoji">🧪</span>
+						<span class="work-arrow">↗</span>
+					</div>
+					<h3>Project name</h3>
+					<p>One or two sentences on the problem, what you built, and the outcome.
+						Lead with impact, not the tech list.</p>
+					<div class="tags"><span>React</span><span>Node</span><span>Postgres</span></div>
+				</a>
+
+				<a class="work-card reveal" href="https://github.com/tanzyy96" target="_blank" rel="noopener">
+					<div class="work-card-top">
+						<span class="work-emoji">⚡</span>
+						<span class="work-arrow">↗</span>
+					</div>
+					<h3>Project name</h3>
+					<p>Another one. A weekend hack, an internal tool, an experiment that taught
+						you something. Show range and curiosity.</p>
+					<div class="tags"><span>Python</span><span>API</span></div>
+				</a>
+			</div>
+		</section>
+
+		<!-- ───────────────────────── NOW ───────────────────────── -->
+		<section class="section section-tint" id="now">
+			<div class="section-head reveal">
+				<span class="section-kicker">// now</span>
+				<h2>What I'm into lately</h2>
+				<p class="section-lede">A snapshot — inspired by <a href="https://nownownow.com/about"
+						target="_blank" rel="noopener">/now</a> pages. <em>(Keep this fresh.)</em></p>
+			</div>
+
+			<div class="now-grid">
+				<div class="now-item reveal">
+					<span class="now-tag">learning</span>
+					<p>Going deeper on building delightful, fast interfaces — and the craft of
+						good product copy.</p>
+				</div>
+				<div class="now-item reveal">
+					<span class="now-tag">building</span>
+					<p>Small experiments at the intersection of AI and everyday workflows.</p>
+				</div>
+				<div class="now-item reveal">
+					<span class="now-tag">playing</span>
+					<p>Whatever's eating my evenings on the PS5 right now.</p>
+				</div>
+				<div class="now-item reveal">
+					<span class="now-tag">planning</span>
+					<p>The next trip. There's always a next trip.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- ───────────────────────── CONTACT ───────────────────────── -->
+		<section class="section contact" id="contact">
+			<div class="contact-card reveal">
+				<h2>Let's build something good.</h2>
+				<p>Got an interesting problem, a role, or just want to argue about product?
+					My inbox is open.</p>
+				<a href="mailto:tan.zy096@gmail.com" class="btn btn-primary btn-lg">tan.zy096@gmail.com</a>
+
+				<div class="socials">
+					<a href="https://github.com/tanzyy96" target="_blank" rel="noopener" title="GitHub">GitHub</a>
+					<a href="https://www.linkedin.com/in/zhi-yang-tan-265815166/" target="_blank"
+						rel="noopener" title="LinkedIn">LinkedIn</a>
+					<a href="https://instagram.com/tanzy.__" target="_blank" rel="noopener"
+						title="Instagram">Instagram</a>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="footer">
+		<p>© <span id="year">2026</span> Tan Zhi Yang · built from scratch, no templates ·
+			<button class="link-btn" id="confetti-btn">🎉</button>
+		</p>
+	</footer>
+
+	<script src="/js/app.js"></script>
 </body>
 
 </html>
