@@ -3,33 +3,30 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta name="theme-color" content="#fbf9f4">
 
 	<title>Tan Zhi Yang — Product Engineer</title>
 	<meta name="description"
-		content="Tan Zhi Yang (Tanzy) — a product engineer who cares about the whole arc, from the messy problem to the last pixel.">
+		content="The personal site of Tan Zhi Yang (Tanzy) — a product engineer — built as a tiny operating system you can actually use.">
 
-	<!-- Open Graph -->
 	<meta property="og:title" content="Tan Zhi Yang — Product Engineer" />
 	<meta property="og:description"
-		content="A product engineer who cares about the whole arc, from the messy problem to the last pixel." />
+		content="A personal site built as a tiny operating system. Open the apps, poke the terminal, flip some feature flags." />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://tanzyy96.github.io/" />
 	<meta name="twitter:card" content="summary" />
 	<meta name="twitter:title" content="Tan Zhi Yang — Product Engineer" />
 	<meta name="twitter:description"
-		content="A product engineer who cares about the whole arc, from the messy problem to the last pixel." />
+		content="A personal site built as a tiny operating system you can actually use." />
 
-	<!-- Favicons (kept from previous site) -->
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 	<link rel="manifest" href="/site.webmanifest">
 	<link rel="shortcut icon" href="/favicon.ico">
 
-	<!-- Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
@@ -40,273 +37,261 @@
 </head>
 
 <body>
-	<!-- soft cursor spotlight -->
-	<div id="spotlight" aria-hidden="true"></div>
+	<!-- ───────────────────────── BOOT ───────────────────────── -->
+	<div id="boot">
+		<div class="boot-inner">
+			<div class="boot-logo">{ }</div>
+			<div class="boot-name">tanzyOS</div>
+			<div class="boot-bar"><span></span></div>
+			<div class="boot-tip" id="boot-tip">starting up…</div>
+			<button id="boot-skip" class="boot-skip">skip →</button>
+		</div>
+	</div>
 
-	<!-- ───────────────────────── NAV ───────────────────────── -->
-	<header class="nav" id="nav">
-		<a href="#top" class="nav-brand">
-			<span class="nav-logo" aria-hidden="true">{ }</span>
-			<span>tanzy</span>
-		</a>
-		<nav class="nav-links">
-			<a href="#about">About</a>
-			<a href="#thinking">How I think</a>
-			<a href="#work">Work</a>
-			<a href="#now">Now</a>
-			<a href="#contact" class="nav-cta">Say hi</a>
-		</nav>
-		<button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
-			<span class="theme-icon-sun">☀</span>
-			<span class="theme-icon-moon">☾</span>
-		</button>
-	</header>
+	<!-- ───────────────────────── DESKTOP ───────────────────────── -->
+	<div id="desktop" aria-hidden="false">
 
-	<main id="top">
+		<!-- top menu bar -->
+		<div id="menubar">
+			<div class="mb-left">
+				<span class="mb-logo">{ }</span>
+				<strong class="mb-title">tanzyOS</strong>
+				<span class="mb-menu" data-open="about">About</span>
+				<span class="mb-menu" data-open="thinking">Thinking</span>
+				<span class="mb-menu" data-open="projects">Projects</span>
+			</div>
+			<div class="mb-right">
+				<button id="launcher-btn" class="mb-btn" title="Spotlight (⌘K)">🔍 <span class="mb-k">⌘K</span></button>
+				<button id="mascot-toggle" class="mb-btn" title="Toggle mascot">🐾</button>
+				<button id="theme-toggle" class="mb-btn" title="Toggle theme">
+					<span class="ic-sun">☀</span><span class="ic-moon">☾</span>
+				</button>
+				<span id="clock" class="mb-clock">—</span>
+			</div>
+		</div>
 
-		<!-- ───────────────────────── HERO ───────────────────────── -->
-		<section class="hero">
-			<div class="hero-bg" aria-hidden="true">
-				<span class="blob blob-1"></span>
-				<span class="blob blob-2"></span>
-				<span class="blob blob-3"></span>
+		<!-- desktop surface -->
+		<div id="surface">
+			<!-- desktop icons -->
+			<div id="desk-icons">
+				<button class="dicon" data-app="about"><span class="dicon-img">🙋</span><span>About&nbsp;Me</span></button>
+				<button class="dicon" data-app="thinking"><span class="dicon-img">🧠</span><span>How&nbsp;I&nbsp;Think</span></button>
+				<button class="dicon" data-app="projects"><span class="dicon-img">🛠️</span><span>Projects</span></button>
+				<button class="dicon" data-app="playground"><span class="dicon-img">🎛️</span><span>Playground</span></button>
+				<button class="dicon" data-app="terminal"><span class="dicon-img">⌨️</span><span>Terminal</span></button>
+				<button class="dicon" data-app="contact"><span class="dicon-img">✉️</span><span>Contact</span></button>
+				<button class="dicon" data-app="readme"><span class="dicon-img">📄</span><span>README.txt</span></button>
 			</div>
 
-			<div class="hero-inner">
-				<p class="eyebrow reveal">
-					<span class="status-dot"></span> Singapore · open to good problems
-				</p>
+			<!-- windows get injected here -->
 
-				<h1 class="hero-title reveal">
-					Hi, I'm <span class="name-highlight">Tan Zhi&nbsp;Yang</span>.<br>
-					I build <span class="rotator" id="rotator" aria-live="polite">products</span><span
-						class="cursor-blink">_</span>
-				</h1>
+			<!-- walking mascot -->
+			<canvas id="mascot" width="48" height="48" hidden aria-hidden="true"></canvas>
+			<div class="mascot-bubble" id="mascot-bubble" hidden></div>
+		</div>
 
-				<p class="hero-sub reveal">
-					A <strong>product engineer</strong> who cares about the whole arc — from the
-					messy, half-formed problem all the way to the last pixel and the copy on the
-					button. Code is the easy part; building the <em>right</em> thing is the fun part.
-				</p>
+		<!-- dock -->
+		<div id="dock">
+			<button class="dock-item" data-app="about" title="About Me">🙋</button>
+			<button class="dock-item" data-app="thinking" title="How I Think">🧠</button>
+			<button class="dock-item" data-app="projects" title="Projects">🛠️</button>
+			<button class="dock-item" data-app="playground" title="Playground">🎛️</button>
+			<button class="dock-item" data-app="terminal" title="Terminal">⌨️</button>
+			<button class="dock-item" data-app="contact" title="Contact">✉️</button>
+		</div>
+	</div>
 
-				<div class="hero-actions reveal">
-					<a href="#work" class="btn btn-primary">See what I build</a>
-					<a href="#thinking" class="btn btn-ghost">How I think →</a>
-				</div>
+	<!-- ───────────────────────── SPOTLIGHT LAUNCHER ───────────────────────── -->
+	<div class="launcher-backdrop" id="launcher" hidden>
+		<div class="launcher-box" role="dialog" aria-modal="true" aria-label="Spotlight">
+			<input type="text" id="launcher-input" class="launcher-input"
+				placeholder="Open an app, run a command…" autocomplete="off" spellcheck="false">
+			<ul class="launcher-list" id="launcher-list"></ul>
+			<div class="launcher-foot"><kbd>↑</kbd><kbd>↓</kbd> move · <kbd>↵</kbd> open · <kbd>esc</kbd> close</div>
+		</div>
+	</div>
 
-				<!-- draggable sticky note easter-egg -->
-				<div class="sticky-note" id="sticky" title="drag me :)">
-					<span>psst — try the<br>Konami code 👀</span>
-				</div>
+	<!-- ═══════════════════════ APP CONTENT (templates) ═══════════════════════ -->
+
+	<template id="app-readme">
+		<div class="doc">
+			<h2>👋 Welcome to tanzyOS</h2>
+			<p>You're looking at the personal site of <b>Tan Zhi Yang</b> — built, for fun,
+				as a tiny operating system that runs in your browser. No frameworks, no
+				templates, just hand-written HTML/CSS/JS.</p>
+			<p><b>How to use it:</b></p>
+			<ul class="doc-list">
+				<li>🖱️ <b>Double-click</b> the desktop icons (or single-click on mobile) to open apps.</li>
+				<li>🪟 <b>Drag</b> window title bars to move them. Use the traffic-light buttons to close/minimise/zoom.</li>
+				<li>🔍 Hit <kbd>⌘K</kbd> / <kbd>Ctrl K</kbd> for Spotlight to jump anywhere fast.</li>
+				<li>⌨️ Open <b>Terminal</b> and type <code>help</code> — it actually works.</li>
+				<li>🐾 Tap the paw in the menu bar to wake a little desktop companion.</li>
+			</ul>
+			<p class="doc-soft">Why build it this way? Because the best way to show how I think
+				about products is to let you <em>use</em> one. Have a poke around.</p>
+		</div>
+	</template>
+
+	<template id="app-about">
+		<div class="doc about-doc">
+			<div class="about-photo">
+				<img src="/about-hugo/myphoto.jpg" alt="Tan Zhi Yang" width="180" height="180" loading="lazy">
+				<span class="photo-badge">that's me 👋</span>
 			</div>
-
-			<a href="#about" class="scroll-hint" aria-label="Scroll down">
-				<span>scroll</span>
-				<span class="scroll-arrow">↓</span>
-			</a>
-		</section>
-
-		<!-- ───────────────────────── ABOUT ───────────────────────── -->
-		<section class="section" id="about">
-			<div class="section-head reveal">
-				<span class="section-kicker">// about</span>
-				<h2>The short version</h2>
+			<div>
+				<h2>Tan Zhi Yang <span class="doc-tag">aka Tanzy</span></h2>
+				<p>I'm a Computer Science grad turned <b>product engineer</b>. I like sitting in
+					the messy middle: close enough to users to feel their pain, close enough to the
+					code to actually fix it.</p>
+				<p>My favourite kind of work is the <b>0→1</b> kind — take a vague idea, talk to
+					people, sketch, prototype, ship something small, and let reality tell us what
+					to do next. Repeat until it's genuinely good.</p>
+				<p>Outside the editor: sports with friends, a good game, a good film, or somewhere
+					mid-flight planning the next trip.</p>
+				<ul class="doc-list">
+					<li>🧠 Obsessed with <b>product taste</b> &amp; the details users feel</li>
+					<li>🛠️ Full-stack, but happiest near the user</li>
+					<li>🎮 Games &amp; films are my product-design school</li>
+					<li>✈️ Will reorganise my life around a good trip</li>
+				</ul>
 			</div>
+		</div>
+	</template>
 
-			<div class="about-grid">
-				<div class="about-photo reveal">
-					<img src="/about-hugo/myphoto.jpg" alt="Tan Zhi Yang" width="264" height="264"
-						loading="lazy">
-					<span class="photo-badge">that's me 👋</span>
-				</div>
-
-				<div class="about-text reveal">
-					<p>
-						I'm Tanzy — a Computer Science grad turned product engineer. I like
-						sitting in the messy middle: close enough to users to feel their pain,
-						close enough to the code to actually fix it.
-					</p>
-					<p>
-						My favourite kind of work is the <strong>0→1</strong> kind: take a vague
-						idea, talk to people, sketch, prototype, ship something small, and let
-						reality tell us what to do next. Repeat until it's genuinely good.
-					</p>
-					<p>
-						Outside the editor you'll find me playing sports with friends, deep in a
-						good game, chasing a good film, or somewhere mid-flight planning the next
-						trip.
-					</p>
-
-					<ul class="fact-list">
-						<li><span>🧠</span> Obsessed with <b>product taste</b> &amp; the details users feel</li>
-						<li><span>🛠️</span> Full-stack, but happiest near the user</li>
-						<li><span>🎮</span> Games &amp; films are my product-design school</li>
-						<li><span>✈️</span> Will reorganise my life around a good trip</li>
-					</ul>
-				</div>
+	<template id="app-thinking">
+		<div class="doc">
+			<h2>Product engineering, the way I see it</h2>
+			<p class="doc-soft">Engineering decisions are product decisions in disguise. The
+				principles I keep coming back to:</p>
+			<div class="principle"><span>01</span>
+				<div><b>Ship to learn.</b> The fastest way to be right is to put something real in
+					front of people and watch what happens. Opinions are cheap; behaviour isn't.</div>
 			</div>
-		</section>
-
-		<!-- ───────────────────────── HOW I THINK ───────────────────────── -->
-		<section class="section section-tint" id="thinking">
-			<div class="section-head reveal">
-				<span class="section-kicker">// how i think</span>
-				<h2>Product engineering, the way I see it</h2>
-				<p class="section-lede">
-					Engineering decisions are product decisions in disguise. These are the
-					principles I keep coming back to.
-				</p>
+			<div class="principle"><span>02</span>
+				<div><b>The details <em>are</em> the product.</b> Empty states, spinners, the copy
+					on a button, 200ms of animation. Users never see the architecture — they feel the
+					sum of small decisions.</div>
 			</div>
-
-			<div class="card-grid">
-				<!-- EDIT: these are my genuine principles — tweak the wording to sound like you -->
-				<article class="card reveal" tabindex="0">
-					<span class="card-num">01</span>
-					<h3>Ship to learn</h3>
-					<p>The fastest way to be right is to put something real in front of people
-						and watch what actually happens. Opinions are cheap; behaviour isn't.</p>
-				</article>
-
-				<article class="card reveal" tabindex="0">
-					<span class="card-num">02</span>
-					<h3>The details <em>are</em> the product</h3>
-					<p>Empty states, loading spinners, the copy on a button, the 200ms of
-						animation. Users never see the architecture — they feel the sum of the
-						small decisions.</p>
-				</article>
-
-				<article class="card reveal" tabindex="0">
-					<span class="card-num">03</span>
-					<h3>Own the problem, not the ticket</h3>
-					<p>The best engineers understand the <em>why</em>. Give me the goal, not just
-						the spec, and I'll often find a simpler thing worth building instead.</p>
-				</article>
-
-				<article class="card reveal" tabindex="0">
-					<span class="card-num">04</span>
-					<h3>Boring tech, interesting problems</h3>
-					<p>Spend the novelty budget where it counts — on the user's problem, not on
-						a stack that's exciting for 20 minutes and painful for two years.</p>
-				</article>
-
-				<article class="card reveal" tabindex="0">
-					<span class="card-num">05</span>
-					<h3>Taste is a skill</h3>
-					<p>It's not magic — you build it by shipping, collecting feedback, and
-						paying attention to work you admire. Then you trust it, then you check it.</p>
-				</article>
-
-				<article class="card reveal" tabindex="0">
-					<span class="card-num">06</span>
-					<h3>Talk to the humans</h3>
-					<p>Five minutes watching someone use the thing beats five hours arguing
-						about it in a doc. The roadmap is downstream of real conversations.</p>
-				</article>
+			<div class="principle"><span>03</span>
+				<div><b>Own the problem, not the ticket.</b> Give me the goal, not just the spec,
+					and I'll often find a simpler thing worth building instead.</div>
 			</div>
-		</section>
-
-		<!-- ───────────────────────── WORK ───────────────────────── -->
-		<section class="section" id="work">
-			<div class="section-head reveal">
-				<span class="section-kicker">// work</span>
-				<h2>Things I've built &amp; tinkered with</h2>
-				<p class="section-lede">
-					A mix of work and side projects. <em>(Swap these for your real ones — they're
-					placeholders.)</em>
-				</p>
+			<div class="principle"><span>04</span>
+				<div><b>Boring tech, interesting problems.</b> Spend the novelty budget on the
+					user's problem, not a stack that's exciting for 20 minutes and painful for two years.</div>
 			</div>
+			<div class="principle"><span>05</span>
+				<div><b>Taste is a skill.</b> You build it by shipping, collecting feedback, and
+					studying work you admire. Then you trust it, then you check it.</div>
+			</div>
+			<div class="principle"><span>06</span>
+				<div><b>Talk to the humans.</b> Five minutes watching someone use the thing beats
+					five hours arguing in a doc.</div>
+			</div>
+		</div>
+	</template>
 
-			<div class="work-grid">
-				<!-- EDIT: replace each card with a real project (title, blurb, tags, link) -->
-				<a class="work-card reveal" href="https://github.com/tanzyy96" target="_blank" rel="noopener">
-					<div class="work-card-top">
-						<span class="work-emoji">🦔</span>
-						<span class="work-arrow">↗</span>
-					</div>
-					<h3>This website</h3>
-					<p>A hand-built, no-framework personal site. Fast, playful, and a sandbox for
-						front-end ideas. You're looking at it.</p>
+	<template id="app-projects">
+		<div class="doc">
+			<h2>Things I've built &amp; tinkered with</h2>
+			<p class="doc-soft"><em>Placeholders — swap in your real projects. Lead with impact,
+				not the tech list.</em></p>
+			<div class="proj-grid">
+				<a class="proj" href="https://github.com/tanzyy96" target="_blank" rel="noopener">
+					<div class="proj-top"><span>🖥️</span><span class="proj-arrow">↗</span></div>
+					<h3>tanzyOS (this site)</h3>
+					<p>A web desktop built from scratch — window manager, dock, a working terminal,
+						all vanilla JS. You're using it.</p>
 					<div class="tags"><span>HTML</span><span>CSS</span><span>Vanilla JS</span></div>
 				</a>
-
-				<a class="work-card reveal" href="https://github.com/tanzyy96" target="_blank" rel="noopener">
-					<div class="work-card-top">
-						<span class="work-emoji">🧪</span>
-						<span class="work-arrow">↗</span>
-					</div>
+				<a class="proj" href="https://github.com/tanzyy96" target="_blank" rel="noopener">
+					<div class="proj-top"><span>🧪</span><span class="proj-arrow">↗</span></div>
 					<h3>Project name</h3>
-					<p>One or two sentences on the problem, what you built, and the outcome.
-						Lead with impact, not the tech list.</p>
+					<p>The problem, what you built, and the outcome in two sentences.</p>
 					<div class="tags"><span>React</span><span>Node</span><span>Postgres</span></div>
 				</a>
-
-				<a class="work-card reveal" href="https://github.com/tanzyy96" target="_blank" rel="noopener">
-					<div class="work-card-top">
-						<span class="work-emoji">⚡</span>
-						<span class="work-arrow">↗</span>
-					</div>
+				<a class="proj" href="https://github.com/tanzyy96" target="_blank" rel="noopener">
+					<div class="proj-top"><span>⚡</span><span class="proj-arrow">↗</span></div>
 					<h3>Project name</h3>
-					<p>Another one. A weekend hack, an internal tool, an experiment that taught
-						you something. Show range and curiosity.</p>
+					<p>A weekend hack or internal tool that taught you something. Show range.</p>
 					<div class="tags"><span>Python</span><span>API</span></div>
 				</a>
 			</div>
-		</section>
+		</div>
+	</template>
 
-		<!-- ───────────────────────── NOW ───────────────────────── -->
-		<section class="section section-tint" id="now">
-			<div class="section-head reveal">
-				<span class="section-kicker">// now</span>
-				<h2>What I'm into lately</h2>
-				<p class="section-lede">A snapshot — inspired by <a href="https://nownownow.com/about"
-						target="_blank" rel="noopener">/now</a> pages. <em>(Keep this fresh.)</em></p>
-			</div>
-
-			<div class="now-grid">
-				<div class="now-item reveal">
-					<span class="now-tag">learning</span>
-					<p>Going deeper on building delightful, fast interfaces — and the craft of
-						good product copy.</p>
+	<template id="app-playground">
+		<div class="doc">
+			<h2>You're the PM now 🎛️</h2>
+			<p class="doc-soft">A tiny, fully-working feature-flag &amp; A/B-test demo. Flip the
+				switches — everything updates live, no reload. This is how I reason about shipping
+				changes safely.</p>
+			<div class="lab-grid">
+				<div class="lab-panel">
+					<div class="lab-toolbar">
+						<span class="lab-dot"></span><span class="lab-dot"></span><span class="lab-dot"></span>
+						<span class="lab-title">checkout.tsx — preview</span>
+					</div>
+					<div class="lab-preview">
+						<div class="lab-cart">
+							<div class="lab-row"><span>Big Plan</span><span class="lab-plan">$49</span></div>
+							<div class="lab-row lab-muted"><span>Tax</span><span>$3.92</span></div>
+							<div class="lab-row lab-total"><span>Total</span><span class="lab-tot">$52.92</span></div>
+						</div>
+						<p class="lab-urgency">🔥 Only 3 left at this price</p>
+						<button class="lab-cta">Buy now</button>
+						<p class="lab-caption">variant: <b>control</b></p>
+					</div>
 				</div>
-				<div class="now-item reveal">
-					<span class="now-tag">building</span>
-					<p>Small experiments at the intersection of AI and everyday workflows.</p>
-				</div>
-				<div class="now-item reveal">
-					<span class="now-tag">playing</span>
-					<p>Whatever's eating my evenings on the PS5 right now.</p>
-				</div>
-				<div class="now-item reveal">
-					<span class="now-tag">planning</span>
-					<p>The next trip. There's always a next trip.</p>
-				</div>
-			</div>
-		</section>
-
-		<!-- ───────────────────────── CONTACT ───────────────────────── -->
-		<section class="section contact" id="contact">
-			<div class="contact-card reveal">
-				<h2>Let's build something good.</h2>
-				<p>Got an interesting problem, a role, or just want to argue about product?
-					My inbox is open.</p>
-				<a href="mailto:tan.zy096@gmail.com" class="btn btn-primary btn-lg">tan.zy096@gmail.com</a>
-
-				<div class="socials">
-					<a href="https://github.com/tanzyy96" target="_blank" rel="noopener" title="GitHub">GitHub</a>
-					<a href="https://www.linkedin.com/in/zhi-yang-tan-265815166/" target="_blank"
-						rel="noopener" title="LinkedIn">LinkedIn</a>
-					<a href="https://instagram.com/tanzy.__" target="_blank" rel="noopener"
-						title="Instagram">Instagram</a>
+				<div class="lab-controls">
+					<label class="flag"><span class="flag-info"><b>new_cta_copy</b><small>A/B the button label</small></span><input type="checkbox" class="switch" data-flag="copy"></label>
+					<label class="flag"><span class="flag-info"><b>urgency_nudge</b><small>Show a scarcity hint</small></span><input type="checkbox" class="switch" data-flag="urgency"></label>
+					<label class="flag"><span class="flag-info"><b>green_cta</b><small>Recolor the button</small></span><input type="checkbox" class="switch" data-flag="color"></label>
+					<label class="flag"><span class="flag-info"><b>annual_discount</b><small>Reprice to yearly</small></span><input type="checkbox" class="switch" data-flag="price"></label>
+					<div class="lab-stat">
+						<div><span class="lab-stat-num lab-conv">3.1%</span><span class="lab-stat-label">sim. conversion</span></div>
+						<div class="lab-stat-bar"><span class="lab-bar"></span></div>
+					</div>
+					<p class="lab-foot">⚠️ numbers are made up — the reasoning isn't.</p>
 				</div>
 			</div>
-		</section>
-	</main>
+		</div>
+	</template>
 
-	<footer class="footer">
-		<p>© <span id="year">2026</span> Tan Zhi Yang · built from scratch, no templates ·
-			<button class="link-btn" id="confetti-btn">🎉</button>
-		</p>
-	</footer>
+	<template id="app-contact">
+		<div class="doc contact-doc">
+			<h2>Let's build something good.</h2>
+			<p>Got an interesting problem, a role, or just want to argue about product?
+				My inbox is open.</p>
+			<a href="mailto:tan.zy096@gmail.com" class="big-mail">tan.zy096@gmail.com</a>
+			<div class="socials">
+				<a href="https://github.com/tanzyy96" target="_blank" rel="noopener">GitHub ↗</a>
+				<a href="https://www.linkedin.com/in/zhi-yang-tan-265815166/" target="_blank" rel="noopener">LinkedIn ↗</a>
+				<a href="https://instagram.com/tanzy.__" target="_blank" rel="noopener">Instagram ↗</a>
+			</div>
+		</div>
+	</template>
+
+	<template id="app-terminal">
+		<div class="term" data-term>
+			<div class="term-out" data-term-out></div>
+			<div class="term-line">
+				<span class="term-prompt">tanzy@web<span class="term-tilde">:~$</span></span>
+				<input class="term-in" data-term-in autocomplete="off" spellcheck="false" autofocus>
+			</div>
+		</div>
+	</template>
+
+	<noscript>
+		<div style="padding:2rem;font-family:sans-serif;max-width:640px;margin:auto">
+			<h1>Tan Zhi Yang — Product Engineer</h1>
+			<p>This site is an interactive web desktop and needs JavaScript. The short version:
+				I'm a product engineer who cares about the whole arc, from the messy problem to the
+				last pixel. Reach me at <a href="mailto:tan.zy096@gmail.com">tan.zy096@gmail.com</a>,
+				on <a href="https://github.com/tanzyy96">GitHub</a> or
+				<a href="https://www.linkedin.com/in/zhi-yang-tan-265815166/">LinkedIn</a>.</p>
+		</div>
+	</noscript>
 
 	<script src="/js/app.js"></script>
 </body>
