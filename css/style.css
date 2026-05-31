@@ -366,7 +366,19 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 .ios-battery b { display: block; height: 100%; width: 72%; background: #fff; border-radius: 1.5px; }
 
 /* ── home screen: horizontally-paged icon grid ── */
-.ios-home { flex: 1; overflow: hidden; }
+.ios-home { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+
+/* frosted "Search" pill that sits above the grid */
+.ios-searchbar {
+	flex: none; margin: .2rem 3rem .6rem; padding: .5rem 1rem;
+	display: flex; align-items: center; justify-content: center; gap: .4rem;
+	background: rgba(255,255,255,.22);
+	border: none; border-radius: 999px; cursor: pointer;
+	color: rgba(255,255,255,.92); font-size: .92rem; font-weight: 500;
+	backdrop-filter: blur(20px) saturate(160%);
+	-webkit-backdrop-filter: blur(20px) saturate(160%);
+}
+.ios-search-glyph { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
 .ios-pages {
 	display: flex; height: 100%;
 	overflow-x: auto; overflow-y: hidden;
@@ -399,6 +411,10 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 	transition: transform .14s var(--ease);
 }
 .ios-icon:active .ios-icon-tile { transform: scale(.88); }
+/* SF Symbols-style line-glyph icons (stroke, rounded caps) */
+.ios-icon-tile svg { width: 32px; height: 32px; fill: none; stroke: #fff; stroke-width: 1.9;
+	stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 1px rgba(0,0,0,.18)); }
+.ios-dock .ios-icon-tile svg { width: 30px; height: 30px; }
 .ios-icon-label { font-size: .73rem; font-weight: 400; color: #fff;
 	max-width: 74px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 	text-shadow: 0 1px 3px rgba(0,0,0,.45); }
@@ -452,25 +468,84 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 	background: color-mix(in srgb, var(--win) 82%, transparent);
 	backdrop-filter: blur(18px) saturate(150%);
 	-webkit-backdrop-filter: blur(18px) saturate(150%);
-	border-bottom: .5px solid color-mix(in srgb, var(--ink) 14%, transparent);
+	border-bottom: .5px solid transparent;
+	transition: border-color .2s var(--ease);
 }
+.ios-appbar.collapsed { border-bottom-color: color-mix(in srgb, var(--ink) 14%, transparent); }
 .ios-back {
 	align-self: flex-start;
 	background: none; border: none; color: #0a84ff; cursor: pointer;
 	font-size: 1.05rem; font-weight: 400; padding: .3rem .2rem .1rem;
 	display: inline-flex; align-items: center; gap: .1rem;
 }
-.ios-apptitle {                                   /* the big left-aligned title */
+/* big left-aligned title that scrolls away */
+.ios-apptitle {
 	font-size: 1.9rem; font-weight: 700; letter-spacing: -.02em;
 	padding: .1rem .25rem 0; line-height: 1.1;
+	transform-origin: left center;
+	transition: opacity .2s var(--ease), transform .2s var(--ease), max-height .2s var(--ease);
+	max-height: 2.4rem; overflow: hidden;
 }
-.ios-appbar-spacer { display: none; }
+.ios-appbar.collapsed .ios-apptitle {
+	opacity: 0; transform: translateY(-6px) scale(.9); max-height: 0; padding-top: 0;
+}
+/* compact centered title that fades in on scroll (the signature iOS move) */
+.ios-compact-title {
+	position: absolute; left: 0; right: 0; top: 50%;
+	transform: translateY(-50%);
+	text-align: center; font-size: 1.02rem; font-weight: 600; letter-spacing: -.01em;
+	pointer-events: none; opacity: 0; transition: opacity .2s var(--ease);
+	padding: 0 3.5rem;                /* clear the Home button */
+	white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ios-appbar.collapsed .ios-compact-title { opacity: 1; }
 .ios-appbody { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .ios-appbody .doc { padding: 1.1rem 1.2rem 2.6rem; max-width: none; }
 .ios-appbody .term { min-height: 100%; }
 .ios-appbody .about-doc { grid-template-columns: 1fr; }
 .ios-appbody .about-photo { max-width: 160px; margin: 0 auto; }
 .ios-appbody .lab-grid { grid-template-columns: 1fr; }
+
+/* ── spotlight search overlay ── */
+.ios-spotlight {
+	position: absolute; inset: 0; z-index: 30;
+	display: flex; flex-direction: column;
+	padding: calc(env(safe-area-inset-top) + .6rem) .9rem 0;
+	background: color-mix(in srgb, #0b0d1c 55%, transparent);
+	backdrop-filter: blur(26px) saturate(150%);
+	-webkit-backdrop-filter: blur(26px) saturate(150%);
+	animation: spotIn .2s var(--ease);
+}
+.ios-spotlight[hidden] { display: none; }
+@keyframes spotIn { from { opacity: 0; } }
+.ios-spot-field {
+	display: flex; align-items: center; gap: .55rem;
+	background: rgba(255,255,255,.22); border-radius: 12px; padding: .55rem .7rem;
+	color: #fff;
+}
+.ios-spot-field .ios-search-glyph { color: rgba(255,255,255,.8); flex: none; }
+.ios-spot-field input {
+	flex: 1; min-width: 0; background: none; border: none; outline: none;
+	color: #fff; font-size: 1.05rem;
+}
+.ios-spot-field input::placeholder { color: rgba(255,255,255,.6); }
+.ios-spot-cancel { background: none; border: none; color: #fff; font-size: 1rem; cursor: pointer; flex: none; padding: 0 .2rem; }
+.ios-spot-results { list-style: none; margin: .8rem 0 0; padding: 0; overflow-y: auto; }
+.ios-spot-result {
+	display: flex; align-items: center; gap: .8rem; width: 100%;
+	padding: .6rem .4rem; background: none; border: none; cursor: pointer;
+	color: #fff; text-align: left; font-size: 1rem;
+	border-bottom: .5px solid rgba(255,255,255,.12);
+}
+.ios-spot-ic {
+	flex: none; width: 38px; height: 38px; border-radius: 22%;
+	display: grid; place-items: center;
+	background-image: linear-gradient(180deg,
+		color-mix(in srgb, var(--tile, #555) 78%, #fff), var(--tile, #555));
+}
+.ios-spot-ic svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 1.9;
+	stroke-linecap: round; stroke-linejoin: round; }
+.ios-spot-empty { color: rgba(255,255,255,.7); padding: 1rem .4rem; font-size: .95rem; }
 
 /* ── home indicator ── */
 .ios-home-indicator {

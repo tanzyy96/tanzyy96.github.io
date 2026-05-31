@@ -209,13 +209,27 @@
 	var iosDock = ["about", "projects", "terminal", "contact"];
 	var PER_PAGE = 8;   // if a page array grows past this, it auto-splits
 
+	// SF Symbols-style line glyphs (stroked SVG paths), one per app
+	var GLYPHS = {
+		about:      '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>',
+		thinking:   '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1.1 2H14.5c.1-.8.5-1.5 1.1-2A6 6 0 0 0 12 3Z"/>',
+		projects:   '<path d="M14.7 6.3a4 4 0 0 0-5.3 5.3L3 18v3h3l6.4-6.4a4 4 0 0 0 5.3-5.3l-2.5 2.5-2-2 2.5-2.5Z"/>',
+		playground: '<path d="M5 7h14M5 12h14M5 17h14"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/>',
+		terminal:   '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12.5 15H16"/>',
+		contact:    '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/>',
+		readme:     '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 12h6M9.5 16h6"/>'
+	};
+	function glyph(appId) {
+		return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (GLYPHS[appId] || GLYPHS.readme) + '</svg>';
+	}
+
 	function makeIcon(appId) {
 		var meta = APPS[appId];
 		var btn = document.createElement("button");
 		btn.className = "ios-icon";
 		btn.setAttribute("aria-label", meta.title);
 		btn.innerHTML =
-			'<span class="ios-icon-tile" style="--tile:' + meta.color + '">' + meta.icon + '</span>' +
+			'<span class="ios-icon-tile" style="--tile:' + meta.color + '">' + glyph(appId) + '</span>' +
 			'<span class="ios-icon-label">' + meta.title.replace(".txt", "") + '</span>';
 		// remember the tapped tile so the sheet can zoom out of it
 		btn.addEventListener("click", function () { openPhoneApp(appId, btn.querySelector(".ios-icon-tile")); });
@@ -264,13 +278,25 @@
 	var iosSheet = document.getElementById("ios-app");
 	var iosBody = document.getElementById("ios-appbody");
 	var iosTitle = document.getElementById("ios-apptitle");
+	var iosCompact = document.getElementById("ios-compact-title");
+	var iosAppbar = iosSheet ? iosSheet.querySelector(".ios-appbar") : null;
 	var iosCurrent = null;
+
+	// large title collapses into the compact centered title once you scroll past it
+	if (iosBody && iosAppbar) {
+		iosBody.addEventListener("scroll", function () {
+			iosAppbar.classList.toggle("collapsed", iosBody.scrollTop > 24);
+		}, { passive: true });
+	}
 
 	function openPhoneApp(appId, tileEl) {
 		var meta = APPS[appId];
 		if (!meta || !iosSheet) return;
 		iosCurrent = appId;
-		iosTitle.textContent = meta.title.replace(".txt", "");   // clean large title, iOS-style
+		var name = meta.title.replace(".txt", "");
+		iosTitle.textContent = name;                  // big left-aligned title
+		if (iosCompact) iosCompact.textContent = name; // compact centered title (fades in on scroll)
+		if (iosAppbar) iosAppbar.classList.remove("collapsed");
 		iosBody.innerHTML = "";
 		var tpl = document.getElementById("app-" + appId);
 		iosBody.appendChild(tpl.content.cloneNode(true));
@@ -300,8 +326,68 @@
 		setTimeout(function () { iosSheet.hidden = true; iosSheet.classList.remove("closing"); iosCurrent = null; }, 230);
 	}
 
+	/* ---------- iOS Spotlight search ---------- */
+	function setupSpotlight() {
+		var bar = document.getElementById("ios-searchbar");
+		var overlay = document.getElementById("ios-spotlight");
+		var input = document.getElementById("ios-spot-input");
+		var results = document.getElementById("ios-spot-results");
+		var cancel = document.getElementById("ios-spot-cancel");
+		if (!bar || !overlay) return;
+
+		var searchable = iosPages.reduce(function (a, p) { return a.concat(p); }, []);
+
+		function render() {
+			var q = input.value.toLowerCase().trim();
+			var matches = searchable.filter(function (id) {
+				return APPS[id].title.toLowerCase().indexOf(q) > -1;
+			});
+			results.innerHTML = "";
+			if (!matches.length) {
+				var li = document.createElement("li");
+				li.className = "ios-spot-empty";
+				li.textContent = 'No results for "' + input.value + '"';
+				results.appendChild(li);
+				return;
+			}
+			matches.forEach(function (id) {
+				var li = document.createElement("li");
+				var btn = document.createElement("button");
+				btn.className = "ios-spot-result";
+				btn.innerHTML =
+					'<span class="ios-spot-ic" style="--tile:' + APPS[id].color + '">' + glyph(id) + '</span>' +
+					'<span>' + APPS[id].title.replace(".txt", "") + '</span>';
+				btn.addEventListener("click", function () {
+					var tile = btn.querySelector(".ios-spot-ic");
+					closeSpotlight();
+					openPhoneApp(id, tile);
+				});
+				li.appendChild(btn);
+				results.appendChild(li);
+			});
+		}
+		function openSpotlight() {
+			overlay.hidden = false; input.value = ""; render();
+			setTimeout(function () { input.focus(); }, 30);
+		}
+		function closeSpotlight() {
+			overlay.hidden = true; input.blur();
+		}
+		bar.addEventListener("click", openSpotlight);
+		cancel.addEventListener("click", closeSpotlight);
+		input.addEventListener("input", render);
+		input.addEventListener("keydown", function (e) {
+			if (e.key === "Escape") closeSpotlight();
+			else if (e.key === "Enter") {
+				var first = results.querySelector(".ios-spot-result");
+				if (first) first.click();
+			}
+		});
+	}
+
 	if (isPhone) {
 		buildPhone();
+		setupSpotlight();
 		var iosBack = document.getElementById("ios-back");
 		var iosHI = document.getElementById("ios-home-indicator");
 		if (iosBack) iosBack.addEventListener("click", closePhoneApp);

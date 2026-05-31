@@ -119,11 +119,25 @@
 
 		<!-- home screen: horizontally-paged icon grid -->
 		<div class="ios-home" id="ios-home">
+			<button class="ios-searchbar" id="ios-searchbar" aria-label="Search">
+				<svg class="ios-search-glyph" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+				<span>Search</span>
+			</button>
 			<div class="ios-pages" id="ios-pages"><!-- pages of icons injected --></div>
 		</div>
 
 		<!-- page dots -->
 		<div class="ios-dots" id="ios-dots"><!-- dots injected --></div>
+
+		<!-- spotlight search overlay -->
+		<div class="ios-spotlight" id="ios-spotlight" hidden>
+			<div class="ios-spot-field">
+				<svg class="ios-search-glyph" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+				<input type="text" id="ios-spot-input" placeholder="Search" autocomplete="off" spellcheck="false" enterkeyhint="go">
+				<button class="ios-spot-cancel" id="ios-spot-cancel">Cancel</button>
+			</div>
+			<ul class="ios-spot-results" id="ios-spot-results"><!-- results injected --></ul>
+		</div>
 
 		<!-- dock -->
 		<div class="ios-dock" id="ios-dock"><!-- dock icons injected --></div>
@@ -132,6 +146,7 @@
 		<div class="ios-app" id="ios-app" hidden>
 			<div class="ios-appbar">
 				<button class="ios-back" id="ios-back">‹&nbsp;Home</button>
+				<span class="ios-compact-title" id="ios-compact-title"></span>
 				<h1 class="ios-apptitle" id="ios-apptitle"></h1>
 			</div>
 			<div class="ios-appbody" id="ios-appbody"></div>
