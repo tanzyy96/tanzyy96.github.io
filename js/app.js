@@ -42,14 +42,15 @@
 	/* ============================================================
 	   APP REGISTRY
 	   ============================================================ */
+	// `color`/`color2` define each icon's vivid gradient (top → bottom)
 	var APPS = {
-		readme:     { title: "README.txt",   icon: "📄", w: 560, h: 420, color: "#8e8e93" },
-		about:      { title: "About Me",      icon: "🙋", w: 600, h: 440, color: "#34c759" },
-		thinking:   { title: "How I Think",   icon: "🧠", w: 600, h: 500, color: "#af52de" },
-		projects:   { title: "Projects",      icon: "🛠️", w: 640, h: 480, color: "#ff9500" },
-		playground: { title: "Playground",    icon: "🎛️", w: 680, h: 520, color: "#1d4aff" },
-		terminal:   { title: "Terminal",      icon: "⌨️", w: 600, h: 380, color: "#1c1c1e" },
-		contact:    { title: "Contact",       icon: "✉️", w: 460, h: 360, color: "#ff3b30" }
+		readme:     { title: "README.txt",   icon: "📄", w: 560, h: 420, color: "#5ac8fa", color2: "#0a84ff" },
+		about:      { title: "About Me",      icon: "🙋", w: 600, h: 440, color: "#5af2a0", color2: "#1aae5a" },
+		thinking:   { title: "How I Think",   icon: "🧠", w: 600, h: 500, color: "#d77bff", color2: "#8a2be2" },
+		projects:   { title: "Projects",      icon: "🛠️", w: 640, h: 480, color: "#ffd166", color2: "#ff8a00" },
+		playground: { title: "Playground",    icon: "🎛️", w: 680, h: 520, color: "#5aa8ff", color2: "#0a5cff" },
+		terminal:   { title: "Terminal",      icon: "⌨️", w: 600, h: 380, color: "#5e6470", color2: "#23262e" },
+		contact:    { title: "Contact",       icon: "✉️", w: 460, h: 360, color: "#ff7a8a", color2: "#ff2d55" }
 	};
 
 	var surface = document.getElementById("surface");
@@ -209,18 +210,25 @@
 	var iosDock = ["about", "projects", "terminal", "contact"];
 	var PER_PAGE = 8;   // if a page array grows past this, it auto-splits
 
-	// SF Symbols-style line glyphs (stroked SVG paths), one per app
+	// Chunky filled SF Symbols-style glyphs (solid shapes, not thin strokes)
 	var GLYPHS = {
-		about:      '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>',
-		thinking:   '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1.1 2H14.5c.1-.8.5-1.5 1.1-2A6 6 0 0 0 12 3Z"/>',
-		projects:   '<path d="M14.7 6.3a4 4 0 0 0-5.3 5.3L3 18v3h3l6.4-6.4a4 4 0 0 0 5.3-5.3l-2.5 2.5-2-2 2.5-2.5Z"/>',
-		playground: '<path d="M5 7h14M5 12h14M5 17h14"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/>',
-		terminal:   '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12.5 15H16"/>',
-		contact:    '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/>',
-		readme:     '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 12h6M9.5 16h6"/>'
+		about:      '<circle cx="12" cy="8" r="4.2"/><path d="M3.5 20.5c0-4.4 3.8-7.2 8.5-7.2s8.5 2.8 8.5 7.2a1 1 0 0 1-1 1H4.5a1 1 0 0 1-1-1Z"/>',
+		thinking:   '<path d="M12 2.5A6.5 6.5 0 0 0 8 14.2c.5.4.8 1 .8 1.6v.2h6.4v-.2c0-.6.3-1.2.8-1.6A6.5 6.5 0 0 0 12 2.5Z"/><rect x="8.8" y="17.4" width="6.4" height="1.9" rx=".9"/><rect x="9.8" y="20" width="4.4" height="1.8" rx=".9"/>',
+		projects:   '<path d="M16.5 3a4.5 4.5 0 0 0-4.2 6.1l-8 8a1.6 1.6 0 0 0 0 2.3l.3.3a1.6 1.6 0 0 0 2.3 0l8-8A4.5 4.5 0 0 0 21 7.2l-2.7 2.7-1.6-.4-.4-1.6L19 5.2A4.5 4.5 0 0 0 16.5 3Z"/>',
+		playground: '<rect x="3" y="5.4" width="18" height="2.2" rx="1.1"/><rect x="3" y="10.9" width="18" height="2.2" rx="1.1"/><rect x="3" y="16.4" width="18" height="2.2" rx="1.1"/><circle cx="8" cy="6.5" r="3"/><circle cx="15" cy="12" r="3"/><circle cx="9.5" cy="17.5" r="3"/>',
+		terminal:   '<rect x="2.5" y="4" width="19" height="16" rx="3"/><path d="M6.5 9.2l3 2.8-3 2.8M12.4 15.2H16" stroke="#0d0f15" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+		contact:    '<rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M4 8l7.3 5.2a1.2 1.2 0 0 0 1.4 0L20 8" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+		readme:     '<path d="M6.5 3h6.2L18 8.3V20a1 1 0 0 1-1 1H6.5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M12.4 3.3V8h4.4" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M8.6 12.5h6M8.6 15.5h6" stroke="#5ac8fa" stroke-width="1.7" stroke-linecap="round"/>'
 	};
 	function glyph(appId) {
 		return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (GLYPHS[appId] || GLYPHS.readme) + '</svg>';
+	}
+
+	// build a Liquid-Glass-style tile: vivid gradient base + glossy highlight + glyph
+	function tileMarkup(appId) {
+		var m = APPS[appId];
+		return '<span class="ios-icon-tile" style="--c1:' + m.color + ';--c2:' + m.color2 + '">' +
+			'<span class="tile-shine"></span>' + glyph(appId) + '</span>';
 	}
 
 	function makeIcon(appId) {
@@ -228,8 +236,7 @@
 		var btn = document.createElement("button");
 		btn.className = "ios-icon";
 		btn.setAttribute("aria-label", meta.title);
-		btn.innerHTML =
-			'<span class="ios-icon-tile" style="--tile:' + meta.color + '">' + glyph(appId) + '</span>' +
+		btn.innerHTML = tileMarkup(appId) +
 			'<span class="ios-icon-label">' + meta.title.replace(".txt", "") + '</span>';
 		// remember the tapped tile so the sheet can zoom out of it
 		btn.addEventListener("click", function () { openPhoneApp(appId, btn.querySelector(".ios-icon-tile")); });
@@ -355,7 +362,7 @@
 				var btn = document.createElement("button");
 				btn.className = "ios-spot-result";
 				btn.innerHTML =
-					'<span class="ios-spot-ic" style="--tile:' + APPS[id].color + '">' + glyph(id) + '</span>' +
+					'<span class="ios-spot-ic" style="--c1:' + APPS[id].color + ';--c2:' + APPS[id].color2 + '">' + glyph(id) + '</span>' +
 					'<span>' + APPS[id].title.replace(".txt", "") + '</span>';
 				btn.addEventListener("click", function () {
 					var tile = btn.querySelector(".ios-spot-ic");

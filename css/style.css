@@ -331,53 +331,64 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 	display: flex; flex-direction: column;
 	position: fixed; inset: 0; z-index: 600;
 	padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-	/* iOS-style saturated wallpaper, not a flat cream */
+	/* iOS 26 "Liquid Glass" abstract mesh wallpaper:
+	   color bands gliding from cool blue -> violet -> pink -> warm */
 	background:
-		radial-gradient(130% 90% at 78% -8%,  #5ea0ff 0%, transparent 55%),
-		radial-gradient(120% 90% at 10% 108%, #b06bff 0%, transparent 52%),
-		linear-gradient(170deg, #2b3c55, #11132b 90%);
-	background-color: #14162e;
+		radial-gradient(80% 60% at 12% 8%,  #8ec9ff 0%, transparent 60%),
+		radial-gradient(75% 55% at 88% 14%, #c89bff 0%, transparent 58%),
+		radial-gradient(90% 70% at 78% 92%, #ff9ec7 0%, transparent 60%),
+		radial-gradient(85% 65% at 8% 96%,  #87f5d2 0%, transparent 58%),
+		linear-gradient(155deg, #b8d4ff 0%, #d9c2ff 45%, #ffd0e6 100%);
+	background-color: #cdd9ff;
 }
-[data-theme="dark"].is-phone #phone, .is-phone[data-theme] #phone {
+[data-theme="dark"].is-phone #phone, .is-phone[data-theme="dark"] #phone {
 	background:
-		radial-gradient(130% 90% at 78% -8%,  #2f5dad 0%, transparent 55%),
-		radial-gradient(120% 90% at 10% 108%, #5b3a9e 0%, transparent 52%),
-		linear-gradient(170deg, #0c1024, #05060f 90%);
+		radial-gradient(80% 60% at 12% 8%,  #2a5c9e 0%, transparent 60%),
+		radial-gradient(75% 55% at 88% 14%, #6a3fae 0%, transparent 58%),
+		radial-gradient(90% 70% at 78% 92%, #aa3b73 0%, transparent 60%),
+		radial-gradient(85% 65% at 8% 96%,  #1f7a64 0%, transparent 58%),
+		linear-gradient(155deg, #141a35 0%, #1c1336 50%, #2a1430 100%);
+	background-color: #11132b;
 }
 
-/* ── status bar ── */
+/* ── status bar ── (ink adapts: dark on the light wallpaper, white in dark mode) */
+.is-phone { --ios-ink: #1c1c22; }
+.is-phone[data-theme="dark"] { --ios-ink: #ffffff; }
 .ios-status {
 	flex: none; height: 44px;
 	display: flex; align-items: center; justify-content: space-between;
-	padding: 0 1.7rem; color: #fff;
+	padding: 0 1.7rem; color: var(--ios-ink);
 	font-weight: 600; font-size: .94rem; letter-spacing: .01em;
 }
 .ios-time { font-variant-numeric: tabular-nums; }
 .ios-status-right { display: flex; align-items: center; gap: 6px; }
 .ios-signal { display: inline-flex; align-items: flex-end; gap: 2px; height: 11px; }
-.ios-signal i { width: 3px; background: #fff; border-radius: 1px; }
+.ios-signal i { width: 3px; background: var(--ios-ink); border-radius: 1px; }
 .ios-signal i:nth-child(1){ height: 4px; } .ios-signal i:nth-child(2){ height: 6px; }
 .ios-signal i:nth-child(3){ height: 8px; } .ios-signal i:nth-child(4){ height: 11px; }
-.ios-wifi { display: inline-flex; color: #fff; }
-.ios-battery { width: 25px; height: 12px; border: 1px solid rgba(255,255,255,.6);
+.ios-wifi { display: inline-flex; color: var(--ios-ink); }
+.ios-battery { width: 25px; height: 12px; border: 1px solid color-mix(in srgb, var(--ios-ink) 55%, transparent);
 	border-radius: 3px; position: relative; padding: 1.5px; }
 .ios-battery::after { content: ""; position: absolute; right: -3px; top: 3.5px; width: 2px; height: 4px;
-	background: rgba(255,255,255,.6); border-radius: 0 1px 1px 0; }
-.ios-battery b { display: block; height: 100%; width: 72%; background: #fff; border-radius: 1.5px; }
+	background: color-mix(in srgb, var(--ios-ink) 55%, transparent); border-radius: 0 1px 1px 0; }
+.ios-battery b { display: block; height: 100%; width: 72%; background: var(--ios-ink); border-radius: 1.5px; }
 
 /* ── home screen: horizontally-paged icon grid ── */
 .ios-home { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
 
 /* frosted "Search" pill that sits above the grid */
 .ios-searchbar {
-	flex: none; margin: .2rem 3rem .6rem; padding: .5rem 1rem;
+	flex: none; margin: .2rem 4rem .7rem; padding: .5rem 1rem;
 	display: flex; align-items: center; justify-content: center; gap: .4rem;
-	background: rgba(255,255,255,.22);
-	border: none; border-radius: 999px; cursor: pointer;
-	color: rgba(255,255,255,.92); font-size: .92rem; font-weight: 500;
-	backdrop-filter: blur(20px) saturate(160%);
-	-webkit-backdrop-filter: blur(20px) saturate(160%);
+	background: rgba(255,255,255,.32);
+	border: 1px solid rgba(255,255,255,.45);
+	border-radius: 999px; cursor: pointer;
+	color: var(--ios-ink); font-size: .92rem; font-weight: 500;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 4px 14px -6px rgba(0,0,0,.25);
+	backdrop-filter: blur(22px) saturate(180%);
+	-webkit-backdrop-filter: blur(22px) saturate(180%);
 }
+.is-phone[data-theme="dark"] .ios-searchbar { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.2); }
 .ios-search-glyph { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
 .ios-pages {
 	display: flex; height: 100%;
@@ -395,29 +406,48 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 	gap: 1.6rem 1rem; justify-items: center; align-content: start;
 }
 .ios-icon { background: none; border: none; cursor: pointer; display: flex; flex-direction: column;
-	align-items: center; gap: .42rem; width: 100%; }
+	align-items: center; gap: .46rem; width: 100%; }
+
+/* ── Liquid-Glass app icon ──
+   vivid two-stop gradient base, a glossy specular highlight, a soft rim,
+   and a filled glyph that sits on the glass. */
 .ios-icon-tile {
-	position: relative;
+	position: relative; isolation: isolate;
 	width: 60px; height: 60px;
-	border-radius: 30%;                       /* iOS superellipse-ish (≈ continuous corner) */
-	display: grid; place-items: center; font-size: 1.85rem;
+	border-radius: 16px;                      /* iOS continuous-corner squircle */
+	display: grid; place-items: center;
 	color: #fff;
-	/* gentle vertical gradient from the app color, like real iOS icons */
-	background-image: linear-gradient(180deg,
-		color-mix(in srgb, var(--tile, #555) 78%, #fff) 0%,
-		var(--tile, #555) 55%,
-		color-mix(in srgb, var(--tile, #555) 82%, #000) 100%);
-	box-shadow: 0 8px 18px -8px rgba(0,0,0,.45);   /* soft diffuse drop shadow */
+	background:
+		linear-gradient(160deg, var(--c1, #6aa9ff) 0%, var(--c2, #1d4aff) 100%);
+	box-shadow:
+		0 10px 22px -8px color-mix(in srgb, var(--c2, #1d4aff) 60%, transparent),  /* colored glow */
+		0 2px 6px -2px rgba(0,0,0,.3),
+		inset 0 1px 0 rgba(255,255,255,.55),       /* top edge light */
+		inset 0 -10px 18px -10px rgba(0,0,0,.35);  /* bottom inner shade */
 	transition: transform .14s var(--ease);
 }
-.ios-icon:active .ios-icon-tile { transform: scale(.88); }
-/* SF Symbols-style line-glyph icons (stroke, rounded caps) */
-.ios-icon-tile svg { width: 32px; height: 32px; fill: none; stroke: #fff; stroke-width: 1.9;
-	stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 1px rgba(0,0,0,.18)); }
-.ios-dock .ios-icon-tile svg { width: 30px; height: 30px; }
-.ios-icon-label { font-size: .73rem; font-weight: 400; color: #fff;
+.ios-icon-tile::before {                      /* subtle rim/border for the glass edge */
+	content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: 3;
+	box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+	pointer-events: none;
+}
+.tile-shine {                                 /* glossy specular sweep across the top */
+	position: absolute; inset: 0; border-radius: inherit; z-index: 1; overflow: hidden;
+	pointer-events: none;
+}
+.tile-shine::after {
+	content: ""; position: absolute; left: -20%; right: -20%; top: -55%; height: 95%;
+	background: radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,.5), rgba(255,255,255,0) 70%);
+	transform: rotate(-8deg);
+}
+.ios-icon:active .ios-icon-tile { transform: scale(.9); }
+/* filled SF Symbols-style glyphs */
+.ios-icon-tile svg { position: relative; z-index: 2; width: 34px; height: 34px;
+	fill: #fff; filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.22)); }
+.ios-dock .ios-icon-tile svg { width: 32px; height: 32px; }
+.ios-icon-label { font-size: .74rem; font-weight: 500; color: #fff;
 	max-width: 74px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-	text-shadow: 0 1px 3px rgba(0,0,0,.45); }
+	text-shadow: 0 1px 4px rgba(0,0,0,.4); letter-spacing: .01em; }
 
 /* ── page dots ── */
 .ios-dots { flex: none; display: flex; justify-content: center; gap: 7px; padding: .55rem 0 .25rem; min-height: 14px; }
@@ -426,16 +456,18 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 .ios-dot.active { background: #fff; }
 .ios-dots:empty { display: none; }
 
-/* ── dock: frosted translucent slab ── */
+/* ── dock: frosted glass slab ── */
 .ios-dock {
-	flex: none; margin: .35rem .6rem; padding: .65rem .55rem;
+	flex: none; margin: .35rem .55rem; padding: .7rem .55rem;
 	display: flex; justify-content: space-around; gap: .5rem;
-	background: rgba(255,255,255,.18);
-	border: 1px solid rgba(255,255,255,.22);
-	border-radius: 32px;
-	backdrop-filter: blur(28px) saturate(160%);
-	-webkit-backdrop-filter: blur(28px) saturate(160%);
+	background: rgba(255,255,255,.34);
+	border: 1px solid rgba(255,255,255,.5);
+	border-radius: 34px;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 8px 26px -10px rgba(0,0,0,.35);
+	backdrop-filter: blur(30px) saturate(180%);
+	-webkit-backdrop-filter: blur(30px) saturate(180%);
 }
+.is-phone[data-theme="dark"] .ios-dock { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.18); }
 .ios-dock .ios-icon { width: auto; }
 .ios-dock .ios-icon-label { display: none; }
 
@@ -538,13 +570,12 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 	border-bottom: .5px solid rgba(255,255,255,.12);
 }
 .ios-spot-ic {
-	flex: none; width: 38px; height: 38px; border-radius: 22%;
-	display: grid; place-items: center;
-	background-image: linear-gradient(180deg,
-		color-mix(in srgb, var(--tile, #555) 78%, #fff), var(--tile, #555));
+	flex: none; width: 38px; height: 38px; border-radius: 10px;
+	display: grid; place-items: center; position: relative;
+	background: linear-gradient(160deg, var(--c1, #6aa9ff), var(--c2, #1d4aff));
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 2px 6px -2px rgba(0,0,0,.4);
 }
-.ios-spot-ic svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 1.9;
-	stroke-linecap: round; stroke-linejoin: round; }
+.ios-spot-ic svg { width: 22px; height: 22px; fill: #fff; }
 .ios-spot-empty { color: rgba(255,255,255,.7); padding: 1rem .4rem; font-size: .95rem; }
 
 /* ── home indicator ── */
