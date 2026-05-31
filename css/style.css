@@ -350,26 +350,53 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 	background: color-mix(in srgb, var(--ink) 55%, transparent); border-radius: 0 1px 1px 0; }
 .ios-battery b { display: block; height: 100%; width: 72%; background: var(--ink); border-radius: 1.5px; }
 
-/* home screen + icon grid */
-.ios-home { flex: 1; overflow-y: auto; padding: 1.4rem 1.4rem 0; }
-.ios-grid {
+/* home screen + paged icon grid */
+.ios-home { flex: 1; overflow: hidden; }
+.ios-pages {
+	display: flex; height: 100%;
+	overflow-x: auto; overflow-y: hidden;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+}
+.ios-pages::-webkit-scrollbar { display: none; }
+.ios-page {
+	flex: 0 0 100%; width: 100%; height: 100%;
+	scroll-snap-align: start;
+	padding: 1.4rem 1.4rem 0;
 	display: grid; grid-template-columns: repeat(4, 1fr);
-	gap: 1.5rem 1rem; justify-items: center;
+	grid-auto-rows: min-content;
+	gap: 1.5rem 1rem; justify-items: center; align-content: start;
 }
 .ios-icon { background: none; border: none; cursor: pointer; display: flex; flex-direction: column;
 	align-items: center; gap: .4rem; width: 100%; }
 .ios-icon-tile {
+	position: relative;
 	width: 60px; height: 60px; border-radius: 16px;            /* squircle-ish */
 	display: grid; place-items: center; font-size: 1.9rem;
-	background: var(--win);
-	border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
-	box-shadow: 0 6px 14px -6px var(--shadow), inset 0 1px 0 rgba(255,255,255,.4);
+	color: #fff;
+	background: var(--tile, var(--win));
+	box-shadow: 0 6px 14px -7px var(--shadow), inset 0 1px 0 rgba(255,255,255,.35),
+		inset 0 -10px 16px -10px rgba(0,0,0,.35);
 	transition: transform .12s var(--ease);
+	overflow: hidden;
+}
+.ios-icon-tile::after {                                        /* glossy top sheen */
+	content: ""; position: absolute; inset: 0 0 50% 0;
+	background: linear-gradient(180deg, rgba(255,255,255,.28), transparent);
 }
 .ios-icon:active .ios-icon-tile { transform: scale(.9); }
 .ios-icon-label { font-family: var(--font-body); font-size: .72rem; color: var(--ink);
 	max-width: 72px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 	text-shadow: 0 1px 2px color-mix(in srgb, var(--bg) 70%, transparent); }
+
+/* page dots */
+.ios-dots { flex: none; display: flex; justify-content: center; gap: 7px; padding: .5rem 0 .2rem; min-height: 14px; }
+.ios-dot { width: 7px; height: 7px; border-radius: 50%; border: none; padding: 0; cursor: pointer;
+	background: color-mix(in srgb, var(--ink) 28%, transparent); transition: background .2s, transform .2s; }
+.ios-dot.active { background: var(--ink); transform: scale(1.05); }
+.ios-dots:empty { display: none; }
 
 /* dock */
 .ios-dock {
@@ -382,18 +409,26 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 .ios-dock .ios-icon { width: auto; }
 .ios-dock .ios-icon-label { display: none; }
 
-/* full-screen app sheet */
+/* full-screen app sheet — zooms out of the tapped icon, iOS-style */
 .ios-app {
 	position: absolute; inset: 0; z-index: 20;
 	display: flex; flex-direction: column;
 	background: var(--win); color: var(--ink);
 	padding-top: env(safe-area-inset-top);
-	animation: iosOpen .28s var(--ease);
+	transform-origin: var(--ox, 50%) var(--oy, 50%);
+	animation: iosOpen .34s var(--ease);
 }
 .ios-app[hidden] { display: none; }
-.ios-app.closing { animation: iosClose .24s var(--ease) forwards; }
-@keyframes iosOpen { from { transform: translateY(100%); opacity: .4; } }
-@keyframes iosClose { to { transform: translateY(100%); opacity: .3; } }
+.ios-app.closing { animation: iosClose .26s var(--ease) forwards; }
+@keyframes iosOpen {
+	from { transform: scale(.18); opacity: 0; border-radius: 40px; }
+	60%  { opacity: 1; }
+	to   { transform: scale(1); opacity: 1; border-radius: 0; }
+}
+@keyframes iosClose {
+	from { transform: scale(1); opacity: 1; border-radius: 0; }
+	to   { transform: scale(.18); opacity: 0; border-radius: 40px; }
+}
 
 .ios-appbar { flex: none; height: 48px; display: flex; align-items: center; padding: 0 .6rem;
 	border-bottom: 1px solid var(--line-soft); gap: .4rem;

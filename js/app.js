@@ -43,13 +43,13 @@
 	   APP REGISTRY
 	   ============================================================ */
 	var APPS = {
-		readme:     { title: "README.txt",   icon: "📄", w: 560, h: 420 },
-		about:      { title: "About Me",      icon: "🙋", w: 600, h: 440 },
-		thinking:   { title: "How I Think",   icon: "🧠", w: 600, h: 500 },
-		projects:   { title: "Projects",      icon: "🛠️", w: 640, h: 480 },
-		playground: { title: "Playground",    icon: "🎛️", w: 680, h: 520 },
-		terminal:   { title: "Terminal",      icon: "⌨️", w: 600, h: 380 },
-		contact:    { title: "Contact",       icon: "✉️", w: 460, h: 360 }
+		readme:     { title: "README.txt",   icon: "📄", w: 560, h: 420, color: "#8e8e93" },
+		about:      { title: "About Me",      icon: "🙋", w: 600, h: 440, color: "#34c759" },
+		thinking:   { title: "How I Think",   icon: "🧠", w: 600, h: 500, color: "#af52de" },
+		projects:   { title: "Projects",      icon: "🛠️", w: 640, h: 480, color: "#ff9500" },
+		playground: { title: "Playground",    icon: "🎛️", w: 680, h: 520, color: "#1d4aff" },
+		terminal:   { title: "Terminal",      icon: "⌨️", w: 600, h: 380, color: "#1c1c1e" },
+		contact:    { title: "Contact",       icon: "✉️", w: 460, h: 360, color: "#ff3b30" }
 	};
 
 	var surface = document.getElementById("surface");
@@ -202,25 +202,62 @@
 	/* ============================================================
 	   iOS HOME SCREEN (phones) — build grid + dock, open as sheets
 	   ============================================================ */
-	var iosOrder = ["about", "thinking", "projects", "playground", "terminal", "contact", "readme"];
+	// each inner array is one home-screen page (max ~8 per page looks right on a phone)
+	var iosPages = [
+		["about", "thinking", "projects", "playground", "terminal", "contact", "readme"]
+	];
 	var iosDock = ["about", "projects", "terminal", "contact"];
+	var PER_PAGE = 8;   // if a page array grows past this, it auto-splits
+
+	function makeIcon(appId) {
+		var meta = APPS[appId];
+		var btn = document.createElement("button");
+		btn.className = "ios-icon";
+		btn.setAttribute("aria-label", meta.title);
+		btn.innerHTML =
+			'<span class="ios-icon-tile" style="--tile:' + meta.color + '">' + meta.icon + '</span>' +
+			'<span class="ios-icon-label">' + meta.title.replace(".txt", "") + '</span>';
+		// remember the tapped tile so the sheet can zoom out of it
+		btn.addEventListener("click", function () { openPhoneApp(appId, btn.querySelector(".ios-icon-tile")); });
+		return btn;
+	}
 
 	function buildPhone() {
-		var grid = document.getElementById("ios-grid");
+		var pagesEl = document.getElementById("ios-pages");
+		var dotsEl = document.getElementById("ios-dots");
 		var dock = document.getElementById("ios-dock");
-		if (!grid || !dock) return;
+		if (!pagesEl || !dock) return;
 
-		function makeIcon(appId) {
-			var meta = APPS[appId];
-			var btn = document.createElement("button");
-			btn.className = "ios-icon";
-			btn.setAttribute("aria-label", meta.title);
-			btn.innerHTML = '<span class="ios-icon-tile">' + meta.icon + '</span>' +
-				'<span class="ios-icon-label">' + meta.title.replace(".txt", "") + '</span>';
-			btn.addEventListener("click", function () { openPhoneApp(appId); });
-			return btn;
+		// flatten + chunk into pages of PER_PAGE
+		var flat = iosPages.reduce(function (a, p) { return a.concat(p); }, []);
+		var chunks = [];
+		for (var i = 0; i < flat.length; i += PER_PAGE) chunks.push(flat.slice(i, i + PER_PAGE));
+
+		chunks.forEach(function (ids, pi) {
+			var page = document.createElement("div");
+			page.className = "ios-page";
+			ids.forEach(function (id) { page.appendChild(makeIcon(id)); });
+			pagesEl.appendChild(page);
+
+			if (dotsEl && chunks.length > 1) {
+				var dot = document.createElement("button");
+				dot.className = "ios-dot" + (pi === 0 ? " active" : "");
+				dot.setAttribute("aria-label", "Page " + (pi + 1));
+				dot.addEventListener("click", function () {
+					pagesEl.scrollTo({ left: pi * pagesEl.clientWidth, behavior: "smooth" });
+				});
+				dotsEl.appendChild(dot);
+			}
+		});
+
+		// keep dots in sync with swipe position
+		if (dotsEl && chunks.length > 1) {
+			pagesEl.addEventListener("scroll", function () {
+				var idx = Math.round(pagesEl.scrollLeft / pagesEl.clientWidth);
+				[].forEach.call(dotsEl.children, function (d, i) { d.classList.toggle("active", i === idx); });
+			}, { passive: true });
 		}
-		iosOrder.forEach(function (id) { grid.appendChild(makeIcon(id)); });
+
 		iosDock.forEach(function (id) { dock.appendChild(makeIcon(id)); });
 	}
 
@@ -229,7 +266,7 @@
 	var iosTitle = document.getElementById("ios-apptitle");
 	var iosCurrent = null;
 
-	function openPhoneApp(appId) {
+	function openPhoneApp(appId, tileEl) {
 		var meta = APPS[appId];
 		if (!meta || !iosSheet) return;
 		iosCurrent = appId;
@@ -237,6 +274,17 @@
 		iosBody.innerHTML = "";
 		var tpl = document.getElementById("app-" + appId);
 		iosBody.appendChild(tpl.content.cloneNode(true));
+
+		// zoom out of the tapped icon: set transform-origin to its center
+		if (tileEl && !prefersReduced) {
+			var r = tileEl.getBoundingClientRect();
+			iosSheet.style.setProperty("--ox", (r.left + r.width / 2) + "px");
+			iosSheet.style.setProperty("--oy", (r.top + r.height / 2) + "px");
+		} else {
+			iosSheet.style.setProperty("--ox", "50%");
+			iosSheet.style.setProperty("--oy", "50%");
+		}
+
 		iosSheet.hidden = false;
 		iosSheet.classList.remove("closing");
 		iosBody.scrollTop = 0;
