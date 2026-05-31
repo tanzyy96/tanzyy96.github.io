@@ -312,15 +312,121 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 	font-family: var(--font-mono); max-width: 200px; pointer-events: none; }
 .mascot-bubble[hidden] { display: none; }
 
-/* ───────────────────────── MOBILE ───────────────────────── */
-.is-mobile .win { left: 0 !important; top: 0 !important; width: 100% !important;
-	height: calc(100% - 0px) !important; border-radius: 0; border: none; animation: sheet .22s var(--ease); }
+/* ═══════════════════════════════════════════════════════════
+   iOS MODE (phones) — a home screen instead of the desktop
+   ═══════════════════════════════════════════════════════════ */
+#phone { display: none; }
+
+.is-phone #desktop { display: none; }           /* hide macOS desktop */
+.is-phone #launcher { display: none !important; } /* no spotlight on phone */
+
+.is-phone #phone {
+	display: flex; flex-direction: column;
+	position: fixed; inset: 0; z-index: 600;
+	padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+	background:
+		radial-gradient(120% 80% at 80% -10%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 60%),
+		radial-gradient(120% 80% at 0% 110%, color-mix(in srgb, var(--accent-2) 26%, transparent), transparent 55%),
+		linear-gradient(165deg, var(--bg-2), var(--bg));
+}
+
+/* status bar */
+.ios-status {
+	flex: none; height: 44px;
+	display: flex; align-items: center; justify-content: space-between;
+	padding: 0 1.6rem; color: var(--ink);
+	font-family: var(--font-body); font-weight: 600; font-size: .92rem;
+}
+.ios-time { letter-spacing: .01em; }
+.ios-status-right { display: flex; align-items: center; gap: 6px; }
+.ios-signal { display: inline-flex; align-items: flex-end; gap: 2px; height: 11px; }
+.ios-signal i { width: 3px; background: var(--ink); border-radius: 1px; }
+.ios-signal i:nth-child(1){ height: 4px; } .ios-signal i:nth-child(2){ height: 6px; }
+.ios-signal i:nth-child(3){ height: 8px; } .ios-signal i:nth-child(4){ height: 11px; }
+.ios-wifi { display: inline-flex; color: var(--ink); }
+.ios-battery { width: 25px; height: 12px; border: 1px solid color-mix(in srgb, var(--ink) 55%, transparent);
+	border-radius: 3px; position: relative; padding: 1.5px; }
+.ios-battery::after { content: ""; position: absolute; right: -3px; top: 3.5px; width: 2px; height: 4px;
+	background: color-mix(in srgb, var(--ink) 55%, transparent); border-radius: 0 1px 1px 0; }
+.ios-battery b { display: block; height: 100%; width: 72%; background: var(--ink); border-radius: 1.5px; }
+
+/* home screen + icon grid */
+.ios-home { flex: 1; overflow-y: auto; padding: 1.4rem 1.4rem 0; }
+.ios-grid {
+	display: grid; grid-template-columns: repeat(4, 1fr);
+	gap: 1.5rem 1rem; justify-items: center;
+}
+.ios-icon { background: none; border: none; cursor: pointer; display: flex; flex-direction: column;
+	align-items: center; gap: .4rem; width: 100%; }
+.ios-icon-tile {
+	width: 60px; height: 60px; border-radius: 16px;            /* squircle-ish */
+	display: grid; place-items: center; font-size: 1.9rem;
+	background: var(--win);
+	border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+	box-shadow: 0 6px 14px -6px var(--shadow), inset 0 1px 0 rgba(255,255,255,.4);
+	transition: transform .12s var(--ease);
+}
+.ios-icon:active .ios-icon-tile { transform: scale(.9); }
+.ios-icon-label { font-family: var(--font-body); font-size: .72rem; color: var(--ink);
+	max-width: 72px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+	text-shadow: 0 1px 2px color-mix(in srgb, var(--bg) 70%, transparent); }
+
+/* dock */
+.ios-dock {
+	flex: none; margin: .4rem .7rem; padding: .7rem;
+	display: flex; justify-content: space-around; gap: .6rem;
+	background: color-mix(in srgb, var(--win) 55%, transparent);
+	border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+	border-radius: 28px; backdrop-filter: blur(20px);
+}
+.ios-dock .ios-icon { width: auto; }
+.ios-dock .ios-icon-label { display: none; }
+
+/* full-screen app sheet */
+.ios-app {
+	position: absolute; inset: 0; z-index: 20;
+	display: flex; flex-direction: column;
+	background: var(--win); color: var(--ink);
+	padding-top: env(safe-area-inset-top);
+	animation: iosOpen .28s var(--ease);
+}
+.ios-app[hidden] { display: none; }
+.ios-app.closing { animation: iosClose .24s var(--ease) forwards; }
+@keyframes iosOpen { from { transform: translateY(100%); opacity: .4; } }
+@keyframes iosClose { to { transform: translateY(100%); opacity: .3; } }
+
+.ios-appbar { flex: none; height: 48px; display: flex; align-items: center; padding: 0 .6rem;
+	border-bottom: 1px solid var(--line-soft); gap: .4rem;
+	background: color-mix(in srgb, var(--win) 80%, transparent); backdrop-filter: blur(12px); }
+.ios-back { background: none; border: none; color: var(--accent-2); font-family: var(--font-body);
+	font-size: 1rem; font-weight: 500; cursor: pointer; padding: .3rem .4rem; }
+.ios-apptitle { flex: 1; text-align: center; font-family: var(--font-display); font-weight: 600; font-size: 1rem; }
+.ios-appbar-spacer { width: 64px; flex: none; }
+.ios-appbody { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.ios-appbody .doc { padding: 1.2rem 1.2rem 2.5rem; max-width: none; }
+.ios-appbody .term { min-height: 100%; }
+.ios-appbody .about-doc { grid-template-columns: 1fr; }
+.ios-appbody .about-photo { max-width: 160px; margin: 0 auto; }
+.ios-appbody .lab-grid { grid-template-columns: 1fr; }
+
+/* home indicator */
+.ios-home-indicator {
+	position: absolute; left: 50%; transform: translateX(-50%);
+	bottom: calc(env(safe-area-inset-bottom) + 7px);
+	width: 134px; height: 5px; border-radius: 999px; z-index: 40;
+	background: color-mix(in srgb, var(--ink) 55%, transparent); cursor: pointer;
+}
+
+/* keep the mascot fun on phones too: anchor it just above the dock */
+.is-phone #mascot { position: fixed; z-index: 30; }
+.is-phone .mascot-bubble { position: fixed; z-index: 31; }
+
+/* ───────────────────────── DESKTOP-ONLY MOBILE FALLBACK ─────────────────────────
+   Narrow non-touch viewports still get usable full-screen windows. */
+.is-mobile:not(.is-phone) .win { left: 0 !important; top: 0 !important; width: 100% !important;
+	height: 100% !important; border-radius: 0; border: none; }
+.is-mobile:not(.is-phone) .win-resize { display: none; }
+
 @keyframes sheet { from { transform: translateY(100%); } }
-.is-mobile .win-resize { display: none; }
-.is-mobile .win-bar { cursor: default; }
-.is-mobile #desk-icons { flex-direction: row; gap: 10px; top: 18px; left: 0; right: 0; padding: 0 14px;
-	max-height: none; justify-content: flex-start; }
-.is-mobile .dicon { width: 78px; }
-.is-mobile #dock { bottom: 8px; }
 
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }

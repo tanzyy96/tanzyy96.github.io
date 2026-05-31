@@ -9,7 +9,10 @@
 	var root = document.documentElement;
 	var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 	var isTouch = window.matchMedia("(max-width: 620px)").matches || ("ontouchstart" in window);
+	// "phone" = narrow viewport → show the iOS home screen instead of the desktop
+	var isPhone = window.matchMedia("(max-width: 620px)").matches;
 	if (isTouch) document.body.classList.add("is-mobile");
+	if (isPhone) document.body.classList.add("is-phone");
 
 	/* ---------- theme (persisted, respects system) ---------- */
 	var stored = localStorage.getItem("theme");
@@ -24,12 +27,14 @@
 	}
 	if (themeBtn) themeBtn.addEventListener("click", toggleTheme);
 
-	/* ---------- clock ---------- */
+	/* ---------- clock (drives both the menu bar and the iOS status bar) ---------- */
 	var clock = document.getElementById("clock");
+	var iosTime = document.getElementById("ios-time");
 	function tickClock() {
-		if (!clock) return;
 		var d = new Date();
-		clock.textContent = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+		var t = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+		if (clock) clock.textContent = t;
+		if (iosTime) iosTime.textContent = t;
 	}
 	tickClock();
 	setInterval(tickClock, 10000);
@@ -68,6 +73,7 @@
 	function openApp(appId) {
 		var meta = APPS[appId];
 		if (!meta) return;
+		if (isPhone) return openPhoneApp(appId);    // iOS-style full-screen sheet
 		if (openWins[appId]) {                      // already open → focus / un-minimise
 			var existing = openWins[appId];
 			existing.classList.remove("min");
@@ -193,7 +199,88 @@
 		window.addEventListener("mouseup", function () { rez = false; document.body.style.userSelect = ""; });
 	}
 
-	/* ---------- launchers: icons, dock, menu ---------- */
+	/* ============================================================
+	   iOS HOME SCREEN (phones) — build grid + dock, open as sheets
+	   ============================================================ */
+	var iosOrder = ["about", "thinking", "projects", "playground", "terminal", "contact", "readme"];
+	var iosDock = ["about", "projects", "terminal", "contact"];
+
+	function buildPhone() {
+		var grid = document.getElementById("ios-grid");
+		var dock = document.getElementById("ios-dock");
+		if (!grid || !dock) return;
+
+		function makeIcon(appId) {
+			var meta = APPS[appId];
+			var btn = document.createElement("button");
+			btn.className = "ios-icon";
+			btn.setAttribute("aria-label", meta.title);
+			btn.innerHTML = '<span class="ios-icon-tile">' + meta.icon + '</span>' +
+				'<span class="ios-icon-label">' + meta.title.replace(".txt", "") + '</span>';
+			btn.addEventListener("click", function () { openPhoneApp(appId); });
+			return btn;
+		}
+		iosOrder.forEach(function (id) { grid.appendChild(makeIcon(id)); });
+		iosDock.forEach(function (id) { dock.appendChild(makeIcon(id)); });
+	}
+
+	var iosSheet = document.getElementById("ios-app");
+	var iosBody = document.getElementById("ios-appbody");
+	var iosTitle = document.getElementById("ios-apptitle");
+	var iosCurrent = null;
+
+	function openPhoneApp(appId) {
+		var meta = APPS[appId];
+		if (!meta || !iosSheet) return;
+		iosCurrent = appId;
+		iosTitle.textContent = meta.icon + " " + meta.title;
+		iosBody.innerHTML = "";
+		var tpl = document.getElementById("app-" + appId);
+		iosBody.appendChild(tpl.content.cloneNode(true));
+		iosSheet.hidden = false;
+		iosSheet.classList.remove("closing");
+		iosBody.scrollTop = 0;
+
+		if (appId === "playground") wirePlayground(iosBody);
+		if (appId === "terminal") wireTerminal(iosBody);
+	}
+
+	function closePhoneApp() {
+		if (!iosSheet || iosSheet.hidden) return;
+		if (prefersReduced) { iosSheet.hidden = true; iosCurrent = null; return; }
+		iosSheet.classList.add("closing");
+		setTimeout(function () { iosSheet.hidden = true; iosSheet.classList.remove("closing"); iosCurrent = null; }, 230);
+	}
+
+	if (isPhone) {
+		buildPhone();
+		var iosBack = document.getElementById("ios-back");
+		var iosHI = document.getElementById("ios-home-indicator");
+		if (iosBack) iosBack.addEventListener("click", closePhoneApp);
+		if (iosHI) iosHI.addEventListener("click", closePhoneApp);
+		// swipe down on the app bar to dismiss, like iOS
+		if (iosSheet) {
+			var ty0 = null;
+			iosSheet.addEventListener("touchstart", function (e) {
+				if (iosBody.scrollTop > 4) { ty0 = null; return; }   // let content scroll
+				ty0 = e.touches[0].clientY;
+			}, { passive: true });
+			iosSheet.addEventListener("touchmove", function (e) {
+				if (ty0 == null) return;
+				var dy = e.touches[0].clientY - ty0;
+				if (dy > 6) iosSheet.style.transform = "translateY(" + Math.min(dy, 200) + "px)";
+			}, { passive: true });
+			iosSheet.addEventListener("touchend", function (e) {
+				if (ty0 == null) return;
+				var dy = (e.changedTouches[0].clientY - ty0);
+				iosSheet.style.transform = "";
+				if (dy > 90) closePhoneApp();
+				ty0 = null;
+			});
+		}
+	}
+
+	/* ---------- launchers: icons, dock, menu (desktop) ---------- */
 	document.querySelectorAll(".dicon[data-app]").forEach(function (ic) {
 		var fire = function () { openApp(ic.dataset.app); };
 		ic.addEventListener("dblclick", fire);
@@ -234,7 +321,7 @@
 			clearInterval(tiTimer);
 			boot.classList.add("gone");
 			setTimeout(function () { boot.style.display = "none"; }, 520);
-			openApp("readme");                       // greet first-time visitors
+			if (!isPhone) openApp("readme");         // greet desktop visitors; phones land on the home screen
 		}
 		if (skip) skip.addEventListener("click", finish);
 		setTimeout(finish, prefersReduced ? 200 : 1900);

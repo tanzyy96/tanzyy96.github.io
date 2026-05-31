@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta name="theme-color" content="#fbf9f4">
 
@@ -99,6 +99,44 @@
 			<button class="dock-item" data-app="terminal" title="Terminal">⌨️</button>
 			<button class="dock-item" data-app="contact" title="Contact">✉️</button>
 		</div>
+	</div>
+
+	<!-- ───────────────────────── iOS HOME (mobile only) ───────────────────────── -->
+	<div id="phone" aria-hidden="true">
+		<!-- status bar -->
+		<div class="ios-status">
+			<span class="ios-time" id="ios-time">9:41</span>
+			<span class="ios-status-right">
+				<span class="ios-signal" title="signal">
+					<i></i><i></i><i></i><i></i>
+				</span>
+				<span class="ios-wifi" aria-label="wifi">
+					<svg viewBox="0 0 16 12" width="17" height="13" fill="currentColor"><path d="M8 11.2 9.7 9.4a2.4 2.4 0 0 0-3.4 0L8 11.2Zm-3-3.1.9.9a4.4 4.4 0 0 1 6.2 0l.9-.9a5.7 5.7 0 0 0-8 0Zm-2.5-2.5.9.9a8 8 0 0 1 11.2 0l.9-.9a9.3 9.3 0 0 0-13 0Z"/></svg>
+				</span>
+				<span class="ios-battery"><b></b></span>
+			</span>
+		</div>
+
+		<!-- home screen -->
+		<div class="ios-home" id="ios-home">
+			<div class="ios-grid" id="ios-grid"><!-- app icons injected --></div>
+		</div>
+
+		<!-- dock -->
+		<div class="ios-dock" id="ios-dock"><!-- dock icons injected --></div>
+
+		<!-- app sheet -->
+		<div class="ios-app" id="ios-app" hidden>
+			<div class="ios-appbar">
+				<button class="ios-back" id="ios-back">‹ Home</button>
+				<span class="ios-apptitle" id="ios-apptitle"></span>
+				<span class="ios-appbar-spacer"></span>
+			</div>
+			<div class="ios-appbody" id="ios-appbody"></div>
+		</div>
+
+		<!-- home indicator -->
+		<div class="ios-home-indicator" id="ios-home-indicator" role="button" aria-label="Home"></div>
 	</div>
 
 	<!-- ───────────────────────── SPOTLIGHT LAUNCHER ───────────────────────── -->
