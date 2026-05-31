@@ -306,110 +306,124 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 /* ───────────────────────── MASCOT ───────────────────────── */
 #mascot { position: absolute; z-index: 350; left: 0; bottom: 0; image-rendering: pixelated; width: 48px; height: 48px;
 	cursor: grab; filter: drop-shadow(2px 3px 0 var(--shadow)); }
-#mascot[hidden] { display: none; }
 .mascot-bubble { position: absolute; z-index: 351; background: var(--win); color: var(--ink); border: 1px solid var(--line);
 	border-radius: 10px; box-shadow: 3px 3px 0 var(--shadow); padding: .35rem .6rem; font-size: .78rem;
 	font-family: var(--font-mono); max-width: 200px; pointer-events: none; }
 .mascot-bubble[hidden] { display: none; }
 
 /* ═══════════════════════════════════════════════════════════
-   iOS MODE (phones) — a home screen instead of the desktop
+   iOS MODE (phones) — an authentic iPhone home screen
+   Uses the real San Francisco system font + Apple visual language:
+   soft diffuse shadows, frosted translucency, large-title nav.
    ═══════════════════════════════════════════════════════════ */
 #phone { display: none; }
 
-.is-phone #desktop { display: none; }           /* hide macOS desktop */
-.is-phone #launcher { display: none !important; } /* no spotlight on phone */
+.is-phone #desktop { display: none; }              /* hide the macOS desktop */
+.is-phone #launcher { display: none !important; }  /* no spotlight on phone  */
+
+/* the whole phone surface speaks SF, like a real iPhone */
+.is-phone, .is-phone #phone, .is-phone #phone * {
+	font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+		"Helvetica Neue", system-ui, sans-serif;
+}
 
 .is-phone #phone {
 	display: flex; flex-direction: column;
 	position: fixed; inset: 0; z-index: 600;
 	padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+	/* iOS-style saturated wallpaper, not a flat cream */
 	background:
-		radial-gradient(120% 80% at 80% -10%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 60%),
-		radial-gradient(120% 80% at 0% 110%, color-mix(in srgb, var(--accent-2) 26%, transparent), transparent 55%),
-		linear-gradient(165deg, var(--bg-2), var(--bg));
+		radial-gradient(130% 90% at 78% -8%,  #5ea0ff 0%, transparent 55%),
+		radial-gradient(120% 90% at 10% 108%, #b06bff 0%, transparent 52%),
+		linear-gradient(170deg, #2b3c55, #11132b 90%);
+	background-color: #14162e;
+}
+[data-theme="dark"].is-phone #phone, .is-phone[data-theme] #phone {
+	background:
+		radial-gradient(130% 90% at 78% -8%,  #2f5dad 0%, transparent 55%),
+		radial-gradient(120% 90% at 10% 108%, #5b3a9e 0%, transparent 52%),
+		linear-gradient(170deg, #0c1024, #05060f 90%);
 }
 
-/* status bar */
+/* ── status bar ── */
 .ios-status {
 	flex: none; height: 44px;
 	display: flex; align-items: center; justify-content: space-between;
-	padding: 0 1.6rem; color: var(--ink);
-	font-family: var(--font-body); font-weight: 600; font-size: .92rem;
+	padding: 0 1.7rem; color: #fff;
+	font-weight: 600; font-size: .94rem; letter-spacing: .01em;
 }
-.ios-time { letter-spacing: .01em; }
+.ios-time { font-variant-numeric: tabular-nums; }
 .ios-status-right { display: flex; align-items: center; gap: 6px; }
 .ios-signal { display: inline-flex; align-items: flex-end; gap: 2px; height: 11px; }
-.ios-signal i { width: 3px; background: var(--ink); border-radius: 1px; }
+.ios-signal i { width: 3px; background: #fff; border-radius: 1px; }
 .ios-signal i:nth-child(1){ height: 4px; } .ios-signal i:nth-child(2){ height: 6px; }
 .ios-signal i:nth-child(3){ height: 8px; } .ios-signal i:nth-child(4){ height: 11px; }
-.ios-wifi { display: inline-flex; color: var(--ink); }
-.ios-battery { width: 25px; height: 12px; border: 1px solid color-mix(in srgb, var(--ink) 55%, transparent);
+.ios-wifi { display: inline-flex; color: #fff; }
+.ios-battery { width: 25px; height: 12px; border: 1px solid rgba(255,255,255,.6);
 	border-radius: 3px; position: relative; padding: 1.5px; }
 .ios-battery::after { content: ""; position: absolute; right: -3px; top: 3.5px; width: 2px; height: 4px;
-	background: color-mix(in srgb, var(--ink) 55%, transparent); border-radius: 0 1px 1px 0; }
-.ios-battery b { display: block; height: 100%; width: 72%; background: var(--ink); border-radius: 1.5px; }
+	background: rgba(255,255,255,.6); border-radius: 0 1px 1px 0; }
+.ios-battery b { display: block; height: 100%; width: 72%; background: #fff; border-radius: 1.5px; }
 
-/* home screen + paged icon grid */
+/* ── home screen: horizontally-paged icon grid ── */
 .ios-home { flex: 1; overflow: hidden; }
 .ios-pages {
 	display: flex; height: 100%;
 	overflow-x: auto; overflow-y: hidden;
-	scroll-snap-type: x mandatory;
-	scroll-behavior: smooth;
-	-webkit-overflow-scrolling: touch;
-	scrollbar-width: none;
+	scroll-snap-type: x mandatory; scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch; scrollbar-width: none;
 }
 .ios-pages::-webkit-scrollbar { display: none; }
 .ios-page {
 	flex: 0 0 100%; width: 100%; height: 100%;
 	scroll-snap-align: start;
-	padding: 1.4rem 1.4rem 0;
+	padding: 1.6rem 1.5rem 0;
 	display: grid; grid-template-columns: repeat(4, 1fr);
 	grid-auto-rows: min-content;
-	gap: 1.5rem 1rem; justify-items: center; align-content: start;
+	gap: 1.6rem 1rem; justify-items: center; align-content: start;
 }
 .ios-icon { background: none; border: none; cursor: pointer; display: flex; flex-direction: column;
-	align-items: center; gap: .4rem; width: 100%; }
+	align-items: center; gap: .42rem; width: 100%; }
 .ios-icon-tile {
 	position: relative;
-	width: 60px; height: 60px; border-radius: 16px;            /* squircle-ish */
-	display: grid; place-items: center; font-size: 1.9rem;
+	width: 60px; height: 60px;
+	border-radius: 30%;                       /* iOS superellipse-ish (≈ continuous corner) */
+	display: grid; place-items: center; font-size: 1.85rem;
 	color: #fff;
-	background: var(--tile, var(--win));
-	box-shadow: 0 6px 14px -7px var(--shadow), inset 0 1px 0 rgba(255,255,255,.35),
-		inset 0 -10px 16px -10px rgba(0,0,0,.35);
-	transition: transform .12s var(--ease);
-	overflow: hidden;
+	/* gentle vertical gradient from the app color, like real iOS icons */
+	background-image: linear-gradient(180deg,
+		color-mix(in srgb, var(--tile, #555) 78%, #fff) 0%,
+		var(--tile, #555) 55%,
+		color-mix(in srgb, var(--tile, #555) 82%, #000) 100%);
+	box-shadow: 0 8px 18px -8px rgba(0,0,0,.45);   /* soft diffuse drop shadow */
+	transition: transform .14s var(--ease);
 }
-.ios-icon-tile::after {                                        /* glossy top sheen */
-	content: ""; position: absolute; inset: 0 0 50% 0;
-	background: linear-gradient(180deg, rgba(255,255,255,.28), transparent);
-}
-.ios-icon:active .ios-icon-tile { transform: scale(.9); }
-.ios-icon-label { font-family: var(--font-body); font-size: .72rem; color: var(--ink);
-	max-width: 72px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-	text-shadow: 0 1px 2px color-mix(in srgb, var(--bg) 70%, transparent); }
+.ios-icon:active .ios-icon-tile { transform: scale(.88); }
+.ios-icon-label { font-size: .73rem; font-weight: 400; color: #fff;
+	max-width: 74px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+	text-shadow: 0 1px 3px rgba(0,0,0,.45); }
 
-/* page dots */
-.ios-dots { flex: none; display: flex; justify-content: center; gap: 7px; padding: .5rem 0 .2rem; min-height: 14px; }
+/* ── page dots ── */
+.ios-dots { flex: none; display: flex; justify-content: center; gap: 7px; padding: .55rem 0 .25rem; min-height: 14px; }
 .ios-dot { width: 7px; height: 7px; border-radius: 50%; border: none; padding: 0; cursor: pointer;
-	background: color-mix(in srgb, var(--ink) 28%, transparent); transition: background .2s, transform .2s; }
-.ios-dot.active { background: var(--ink); transform: scale(1.05); }
+	background: rgba(255,255,255,.35); transition: background .2s, transform .2s; }
+.ios-dot.active { background: #fff; }
 .ios-dots:empty { display: none; }
 
-/* dock */
+/* ── dock: frosted translucent slab ── */
 .ios-dock {
-	flex: none; margin: .4rem .7rem; padding: .7rem;
-	display: flex; justify-content: space-around; gap: .6rem;
-	background: color-mix(in srgb, var(--win) 55%, transparent);
-	border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
-	border-radius: 28px; backdrop-filter: blur(20px);
+	flex: none; margin: .35rem .6rem; padding: .65rem .55rem;
+	display: flex; justify-content: space-around; gap: .5rem;
+	background: rgba(255,255,255,.18);
+	border: 1px solid rgba(255,255,255,.22);
+	border-radius: 32px;
+	backdrop-filter: blur(28px) saturate(160%);
+	-webkit-backdrop-filter: blur(28px) saturate(160%);
 }
 .ios-dock .ios-icon { width: auto; }
 .ios-dock .ios-icon-label { display: none; }
 
-/* full-screen app sheet — zooms out of the tapped icon, iOS-style */
+/* ── full-screen app: zooms out of the tapped icon ── */
 .ios-app {
 	position: absolute; inset: 0; z-index: 20;
 	display: flex; flex-direction: column;
@@ -421,43 +435,60 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 .ios-app[hidden] { display: none; }
 .ios-app.closing { animation: iosClose .26s var(--ease) forwards; }
 @keyframes iosOpen {
-	from { transform: scale(.18); opacity: 0; border-radius: 40px; }
-	60%  { opacity: 1; }
+	from { transform: scale(.16); opacity: 0; border-radius: 44px; }
+	55%  { opacity: 1; }
 	to   { transform: scale(1); opacity: 1; border-radius: 0; }
 }
 @keyframes iosClose {
 	from { transform: scale(1); opacity: 1; border-radius: 0; }
-	to   { transform: scale(.18); opacity: 0; border-radius: 40px; }
+	to   { transform: scale(.16); opacity: 0; border-radius: 44px; }
 }
 
-.ios-appbar { flex: none; height: 48px; display: flex; align-items: center; padding: 0 .6rem;
-	border-bottom: 1px solid var(--line-soft); gap: .4rem;
-	background: color-mix(in srgb, var(--win) 80%, transparent); backdrop-filter: blur(12px); }
-.ios-back { background: none; border: none; color: var(--accent-2); font-family: var(--font-body);
-	font-size: 1rem; font-weight: 500; cursor: pointer; padding: .3rem .4rem; }
-.ios-apptitle { flex: 1; text-align: center; font-family: var(--font-display); font-weight: 600; font-size: 1rem; }
-.ios-appbar-spacer { width: 64px; flex: none; }
+/* iOS large-title navigation bar */
+.ios-appbar {
+	flex: none; position: relative;
+	display: flex; flex-direction: column; justify-content: center;
+	padding: .2rem .6rem .5rem;
+	background: color-mix(in srgb, var(--win) 82%, transparent);
+	backdrop-filter: blur(18px) saturate(150%);
+	-webkit-backdrop-filter: blur(18px) saturate(150%);
+	border-bottom: .5px solid color-mix(in srgb, var(--ink) 14%, transparent);
+}
+.ios-back {
+	align-self: flex-start;
+	background: none; border: none; color: #0a84ff; cursor: pointer;
+	font-size: 1.05rem; font-weight: 400; padding: .3rem .2rem .1rem;
+	display: inline-flex; align-items: center; gap: .1rem;
+}
+.ios-apptitle {                                   /* the big left-aligned title */
+	font-size: 1.9rem; font-weight: 700; letter-spacing: -.02em;
+	padding: .1rem .25rem 0; line-height: 1.1;
+}
+.ios-appbar-spacer { display: none; }
 .ios-appbody { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-.ios-appbody .doc { padding: 1.2rem 1.2rem 2.5rem; max-width: none; }
+.ios-appbody .doc { padding: 1.1rem 1.2rem 2.6rem; max-width: none; }
 .ios-appbody .term { min-height: 100%; }
 .ios-appbody .about-doc { grid-template-columns: 1fr; }
 .ios-appbody .about-photo { max-width: 160px; margin: 0 auto; }
 .ios-appbody .lab-grid { grid-template-columns: 1fr; }
 
-/* home indicator */
+/* ── home indicator ── */
 .ios-home-indicator {
 	position: absolute; left: 50%; transform: translateX(-50%);
-	bottom: calc(env(safe-area-inset-bottom) + 7px);
+	bottom: calc(env(safe-area-inset-bottom) + 8px);
 	width: 134px; height: 5px; border-radius: 999px; z-index: 40;
-	background: color-mix(in srgb, var(--ink) 55%, transparent); cursor: pointer;
+	background: rgba(255,255,255,.85); cursor: pointer;
+}
+.ios-app ~ .ios-home-indicator,                   /* darker bar over a light app */
+.is-phone .ios-app:not([hidden]) ~ .ios-home-indicator {
+	background: color-mix(in srgb, var(--ink) 75%, transparent);
 }
 
-/* keep the mascot fun on phones too: anchor it just above the dock */
+/* keep the mascot fun on phones too */
 .is-phone #mascot { position: fixed; z-index: 30; }
 .is-phone .mascot-bubble { position: fixed; z-index: 31; }
 
-/* ───────────────────────── DESKTOP-ONLY MOBILE FALLBACK ─────────────────────────
-   Narrow non-touch viewports still get usable full-screen windows. */
+/* ── narrow non-touch viewports keep the full-screen-window fallback ── */
 .is-mobile:not(.is-phone) .win { left: 0 !important; top: 0 !important; width: 100% !important;
 	height: 100% !important; border-radius: 0; border: none; }
 .is-mobile:not(.is-phone) .win-resize { display: none; }

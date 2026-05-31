@@ -270,7 +270,7 @@
 		var meta = APPS[appId];
 		if (!meta || !iosSheet) return;
 		iosCurrent = appId;
-		iosTitle.textContent = meta.icon + " " + meta.title;
+		iosTitle.textContent = meta.title.replace(".txt", "");   // clean large title, iOS-style
 		iosBody.innerHTML = "";
 		var tpl = document.getElementById("app-" + appId);
 		iosBody.appendChild(tpl.content.cloneNode(true));
