@@ -117,8 +117,31 @@
 			</span>
 		</div>
 
-		<!-- home screen: horizontally-paged icon grid -->
+		<!-- home screen: widgets + horizontally-paged icon grid -->
 		<div class="ios-home" id="ios-home">
+
+			<!-- widget row (top of the home screen) -->
+			<div class="ios-widgets">
+				<div class="iw iw-clock">
+					<span class="iw-clock-h" id="iw-hh">18</span>
+					<span class="iw-clock-m" id="iw-mm">09</span>
+				</div>
+				<div class="iw-col">
+					<div class="iw iw-date">
+						<span class="iw-dow" id="iw-dow">FRI</span>
+						<span class="iw-day" id="iw-day">29</span>
+					</div>
+					<div class="iw iw-weather">
+						<span class="iw-temp">29°</span>
+						<span class="iw-cond">Cupertino<br>Sunny</span>
+					</div>
+				</div>
+				<div class="iw iw-note">
+					<span class="iw-note-title">Now</span>
+					<span class="iw-note-body">Building tanzyOS — shipping product, one detail at a time.</span>
+				</div>
+			</div>
+
 			<button class="ios-searchbar" id="ios-searchbar" aria-label="Search">
 				<svg class="ios-search-glyph" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
 				<span>Search</span>

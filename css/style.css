@@ -331,29 +331,18 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 	display: flex; flex-direction: column;
 	position: fixed; inset: 0; z-index: 600;
 	padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-	/* iOS 26 "Liquid Glass" abstract mesh wallpaper:
-	   color bands gliding from cool blue -> violet -> pink -> warm */
+	/* stealth all-black wallpaper with a faint B&W "water splash" wash near the dock */
 	background:
-		radial-gradient(80% 60% at 12% 8%,  #8ec9ff 0%, transparent 60%),
-		radial-gradient(75% 55% at 88% 14%, #c89bff 0%, transparent 58%),
-		radial-gradient(90% 70% at 78% 92%, #ff9ec7 0%, transparent 60%),
-		radial-gradient(85% 65% at 8% 96%,  #87f5d2 0%, transparent 58%),
-		linear-gradient(155deg, #b8d4ff 0%, #d9c2ff 45%, #ffd0e6 100%);
-	background-color: #cdd9ff;
-}
-[data-theme="dark"].is-phone #phone, .is-phone[data-theme="dark"] #phone {
-	background:
-		radial-gradient(80% 60% at 12% 8%,  #2a5c9e 0%, transparent 60%),
-		radial-gradient(75% 55% at 88% 14%, #6a3fae 0%, transparent 58%),
-		radial-gradient(90% 70% at 78% 92%, #aa3b73 0%, transparent 60%),
-		radial-gradient(85% 65% at 8% 96%,  #1f7a64 0%, transparent 58%),
-		linear-gradient(155deg, #141a35 0%, #1c1336 50%, #2a1430 100%);
-	background-color: #11132b;
+		radial-gradient(120% 55% at 50% 116%, rgba(255,255,255,.16) 0%, rgba(255,255,255,.05) 30%, transparent 60%),
+		radial-gradient(90% 40% at 22% 104%, rgba(255,255,255,.1) 0%, transparent 55%),
+		radial-gradient(90% 40% at 80% 104%, rgba(255,255,255,.08) 0%, transparent 55%),
+		#050506;
+	background-color: #050506;
+	color: #fff;
 }
 
-/* ── status bar ── (ink adapts: dark on the light wallpaper, white in dark mode) */
-.is-phone { --ios-ink: #1c1c22; }
-.is-phone[data-theme="dark"] { --ios-ink: #ffffff; }
+/* ── status bar ── (white ink on the all-black wallpaper) */
+.is-phone { --ios-ink: #ffffff; }
 .ios-status {
 	flex: none; height: 44px;
 	display: flex; align-items: center; justify-content: space-between;
@@ -376,19 +365,51 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 /* ── home screen: horizontally-paged icon grid ── */
 .ios-home { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
 
+/* ── home-screen widgets (dark glass cards) ── */
+.ios-widgets {
+	flex: none; display: grid; gap: 14px;
+	grid-template-columns: 1.15fr .85fr;
+	padding: .6rem 1.1rem .3rem;
+}
+.iw {
+	border-radius: 22px;
+	background: rgba(28,28,32,.62);
+	border: 1px solid rgba(255,255,255,.08);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 30px -14px #000;
+	backdrop-filter: blur(24px) saturate(140%);
+	-webkit-backdrop-filter: blur(24px) saturate(140%);
+	color: #fff; overflow: hidden;
+}
+/* big clock widget (spans two rows on the left) */
+.iw-clock {
+	grid-row: span 2;
+	display: flex; flex-direction: column; justify-content: center;
+	padding: 1rem 1.2rem;
+}
+.iw-clock-h, .iw-clock-m { font-size: 3.6rem; font-weight: 700; line-height: .96; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.iw-clock-m { color: rgba(255,255,255,.55); }
+.iw-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.iw-col .iw { display: flex; flex-direction: column; justify-content: center; padding: .7rem .85rem; min-height: 84px; }
+.iw-date .iw-dow { font-size: .72rem; font-weight: 700; color: #ff6b5e; letter-spacing: .06em; }
+.iw-date .iw-day { font-size: 2rem; font-weight: 700; line-height: 1; }
+.iw-weather .iw-temp { font-size: 1.6rem; font-weight: 600; }
+.iw-weather .iw-cond { font-size: .64rem; color: rgba(255,255,255,.55); margin-top: .15rem; line-height: 1.2; }
+.iw-note { grid-column: 1 / -1; padding: .8rem 1rem; }
+.iw-note-title { font-size: .7rem; font-weight: 700; color: rgba(255,255,255,.5); letter-spacing: .04em; text-transform: uppercase; }
+.iw-note-body { display: block; margin-top: .25rem; font-size: .85rem; color: rgba(255,255,255,.92); line-height: 1.35; }
+
 /* frosted "Search" pill that sits above the grid */
 .ios-searchbar {
-	flex: none; margin: .2rem 4rem .7rem; padding: .5rem 1rem;
+	flex: none; margin: .2rem 4rem .7rem; padding: .45rem 1rem;
 	display: flex; align-items: center; justify-content: center; gap: .4rem;
-	background: rgba(255,255,255,.32);
-	border: 1px solid rgba(255,255,255,.45);
+	background: rgba(255,255,255,.1);
+	border: 1px solid rgba(255,255,255,.14);
 	border-radius: 999px; cursor: pointer;
-	color: var(--ios-ink); font-size: .92rem; font-weight: 500;
-	box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 4px 14px -6px rgba(0,0,0,.25);
-	backdrop-filter: blur(22px) saturate(180%);
-	-webkit-backdrop-filter: blur(22px) saturate(180%);
+	color: rgba(255,255,255,.85); font-size: .9rem; font-weight: 500;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+	backdrop-filter: blur(22px) saturate(160%);
+	-webkit-backdrop-filter: blur(22px) saturate(160%);
 }
-.is-phone[data-theme="dark"] .ios-searchbar { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.2); }
 .ios-search-glyph { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
 .ios-pages {
 	display: flex; height: 100%;
@@ -417,37 +438,36 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 	border-radius: 16px;                      /* iOS continuous-corner squircle */
 	display: grid; place-items: center;
 	color: #fff;
-	background:
-		linear-gradient(160deg, var(--c1, #6aa9ff) 0%, var(--c2, #1d4aff) 100%);
+	/* monochrome dark glass */
+	background: linear-gradient(165deg, var(--c1, #3a3a3f) 0%, var(--c2, #1a1a1e) 100%);
 	box-shadow:
-		0 10px 22px -8px color-mix(in srgb, var(--c2, #1d4aff) 60%, transparent),  /* colored glow */
-		0 2px 6px -2px rgba(0,0,0,.3),
-		inset 0 1px 0 rgba(255,255,255,.55),       /* top edge light */
-		inset 0 -10px 18px -10px rgba(0,0,0,.35);  /* bottom inner shade */
+		0 8px 20px -10px #000,
+		inset 0 1px 0 rgba(255,255,255,.14),       /* top edge light */
+		inset 0 -10px 18px -12px rgba(0,0,0,.6);   /* bottom inner shade */
 	transition: transform .14s var(--ease);
 }
 .ios-icon-tile::before {                      /* subtle rim/border for the glass edge */
 	content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: 3;
-	box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+	box-shadow: inset 0 0 0 1px rgba(255,255,255,.1);
 	pointer-events: none;
 }
-.tile-shine {                                 /* glossy specular sweep across the top */
+.tile-shine {                                 /* faint specular sweep across the top */
 	position: absolute; inset: 0; border-radius: inherit; z-index: 1; overflow: hidden;
 	pointer-events: none;
 }
 .tile-shine::after {
 	content: ""; position: absolute; left: -20%; right: -20%; top: -55%; height: 95%;
-	background: radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,.5), rgba(255,255,255,0) 70%);
+	background: radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,.16), rgba(255,255,255,0) 70%);
 	transform: rotate(-8deg);
 }
 .ios-icon:active .ios-icon-tile { transform: scale(.9); }
-/* filled SF Symbols-style glyphs */
-.ios-icon-tile svg { position: relative; z-index: 2; width: 34px; height: 34px;
-	fill: #fff; filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.22)); }
-.ios-dock .ios-icon-tile svg { width: 32px; height: 32px; }
-.ios-icon-label { font-size: .74rem; font-weight: 500; color: #fff;
+/* filled SF Symbols-style glyphs (light grey on dark glass) */
+.ios-icon-tile svg { position: relative; z-index: 2; width: 32px; height: 32px;
+	fill: rgba(255,255,255,.92); }
+.ios-dock .ios-icon-tile svg { width: 30px; height: 30px; }
+.ios-icon-label { font-size: .74rem; font-weight: 500; color: rgba(255,255,255,.9);
 	max-width: 74px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-	text-shadow: 0 1px 4px rgba(0,0,0,.4); letter-spacing: .01em; }
+	text-shadow: 0 1px 4px rgba(0,0,0,.5); letter-spacing: .01em; }
 
 /* ── page dots ── */
 .ios-dots { flex: none; display: flex; justify-content: center; gap: 7px; padding: .55rem 0 .25rem; min-height: 14px; }
@@ -456,18 +476,17 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 .ios-dot.active { background: #fff; }
 .ios-dots:empty { display: none; }
 
-/* ── dock: frosted glass slab ── */
+/* ── dock: dark frosted glass slab ── */
 .ios-dock {
 	flex: none; margin: .35rem .55rem; padding: .7rem .55rem;
 	display: flex; justify-content: space-around; gap: .5rem;
-	background: rgba(255,255,255,.34);
-	border: 1px solid rgba(255,255,255,.5);
+	background: rgba(40,40,46,.5);
+	border: 1px solid rgba(255,255,255,.12);
 	border-radius: 34px;
-	box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 8px 26px -10px rgba(0,0,0,.35);
-	backdrop-filter: blur(30px) saturate(180%);
-	-webkit-backdrop-filter: blur(30px) saturate(180%);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 8px 26px -10px #000;
+	backdrop-filter: blur(34px) saturate(150%);
+	-webkit-backdrop-filter: blur(34px) saturate(150%);
 }
-.is-phone[data-theme="dark"] .ios-dock { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.18); }
 .ios-dock .ios-icon { width: auto; }
 .ios-dock .ios-icon-label { display: none; }
 
@@ -572,8 +591,8 @@ code { font-family: var(--font-mono); font-size: .88em; background: color-mix(in
 .ios-spot-ic {
 	flex: none; width: 38px; height: 38px; border-radius: 10px;
 	display: grid; place-items: center; position: relative;
-	background: linear-gradient(160deg, var(--c1, #6aa9ff), var(--c2, #1d4aff));
-	box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 2px 6px -2px rgba(0,0,0,.4);
+	background: linear-gradient(165deg, var(--c1, #3a3a3f), var(--c2, #1a1a1e));
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 2px 6px -2px #000;
 }
 .ios-spot-ic svg { width: 22px; height: 22px; fill: #fff; }
 .ios-spot-empty { color: rgba(255,255,255,.7); padding: 1rem .4rem; font-size: .95rem; }

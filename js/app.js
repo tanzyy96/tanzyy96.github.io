@@ -18,6 +18,8 @@
 	var stored = localStorage.getItem("theme");
 	if (stored) root.setAttribute("data-theme", stored);
 	else if (window.matchMedia("(prefers-color-scheme: dark)").matches) root.setAttribute("data-theme", "dark");
+	// the iOS home screen is designed dark/monochrome — force it on phones
+	if (isPhone) root.setAttribute("data-theme", "dark");
 
 	var themeBtn = document.getElementById("theme-toggle");
 	function toggleTheme() {
@@ -27,14 +29,22 @@
 	}
 	if (themeBtn) themeBtn.addEventListener("click", toggleTheme);
 
-	/* ---------- clock (drives both the menu bar and the iOS status bar) ---------- */
+	/* ---------- clock (menu bar, iOS status bar, + home widgets) ---------- */
 	var clock = document.getElementById("clock");
 	var iosTime = document.getElementById("ios-time");
+	var wHH = document.getElementById("iw-hh"), wMM = document.getElementById("iw-mm");
+	var wDow = document.getElementById("iw-dow"), wDay = document.getElementById("iw-day");
+	var DOW = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+	function pad(n) { return (n < 10 ? "0" : "") + n; }
 	function tickClock() {
 		var d = new Date();
 		var t = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 		if (clock) clock.textContent = t;
 		if (iosTime) iosTime.textContent = t;
+		if (wHH) wHH.textContent = pad(d.getHours());
+		if (wMM) wMM.textContent = pad(d.getMinutes());
+		if (wDow) wDow.textContent = DOW[d.getDay()];
+		if (wDay) wDay.textContent = d.getDate();
 	}
 	tickClock();
 	setInterval(tickClock, 10000);
@@ -42,15 +52,15 @@
 	/* ============================================================
 	   APP REGISTRY
 	   ============================================================ */
-	// `color`/`color2` define each icon's vivid gradient (top → bottom)
+	// dark "tinted" icon mode: monochrome charcoal glass with light glyphs
 	var APPS = {
-		readme:     { title: "README.txt",   icon: "📄", w: 560, h: 420, color: "#5ac8fa", color2: "#0a84ff" },
-		about:      { title: "About Me",      icon: "🙋", w: 600, h: 440, color: "#5af2a0", color2: "#1aae5a" },
-		thinking:   { title: "How I Think",   icon: "🧠", w: 600, h: 500, color: "#d77bff", color2: "#8a2be2" },
-		projects:   { title: "Projects",      icon: "🛠️", w: 640, h: 480, color: "#ffd166", color2: "#ff8a00" },
-		playground: { title: "Playground",    icon: "🎛️", w: 680, h: 520, color: "#5aa8ff", color2: "#0a5cff" },
-		terminal:   { title: "Terminal",      icon: "⌨️", w: 600, h: 380, color: "#5e6470", color2: "#23262e" },
-		contact:    { title: "Contact",       icon: "✉️", w: 460, h: 360, color: "#ff7a8a", color2: "#ff2d55" }
+		readme:     { title: "README.txt",   icon: "📄", w: 560, h: 420, color: "#3a3a3f", color2: "#1a1a1e" },
+		about:      { title: "About Me",      icon: "🙋", w: 600, h: 440, color: "#3a3a3f", color2: "#1a1a1e" },
+		thinking:   { title: "How I Think",   icon: "🧠", w: 600, h: 500, color: "#3a3a3f", color2: "#1a1a1e" },
+		projects:   { title: "Projects",      icon: "🛠️", w: 640, h: 480, color: "#3a3a3f", color2: "#1a1a1e" },
+		playground: { title: "Playground",    icon: "🎛️", w: 680, h: 520, color: "#3a3a3f", color2: "#1a1a1e" },
+		terminal:   { title: "Terminal",      icon: "⌨️", w: 600, h: 380, color: "#3a3a3f", color2: "#1a1a1e" },
+		contact:    { title: "Contact",       icon: "✉️", w: 460, h: 360, color: "#3a3a3f", color2: "#1a1a1e" }
 	};
 
 	var surface = document.getElementById("surface");
